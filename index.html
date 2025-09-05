@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Playlist Player</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 800px;
+            width: 90%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .player-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .current-track {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .track-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .track-number {
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+
+        audio {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .auto-shuffle-on {
+            background: linear-gradient(45deg, #4ECDC4, #44A08D) !important;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3) !important;
+        }
+
+        .auto-shuffle-off {
+            background: rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .playlist-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .add-track {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="url"] {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1em;
+        }
+
+        input[type="url"]::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .add-btn {
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .add-btn:hover {
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .playlist {
+            max-height: 300px;
+            overflow-y: auto;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        .track-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .track-item.current {
+            background: rgba(255, 107, 107, 0.2);
+            border-left-color: #FF6B6B;
+            box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .track-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .track-url {
+            font-size: 0.9em;
+            opacity: 0.8;
+            word-break: break-all;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .remove-btn {
+            background: linear-gradient(45deg, #FF6B6B, #FF5722);
+            padding: 6px 12px;
+            font-size: 0.8em;
+            box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+            margin-left: 10px;
+        }
+
+        .status {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .status.playing {
+            background: rgba(78, 205, 196, 0.2);
+            border: 1px solid rgba(78, 205, 196, 0.5);
+            color: #4ECDC4;
+        }
+
+        .status.error {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.5);
+            color: #FF6B6B;
+        }
+
+        .loop-indicator {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid rgba(255, 193, 7, 0.5);
+            color: #FFC107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Audio Playlist Player</h1>
+        
+        <div class="player-section">
+            <div class="current-track">
+                <div class="track-title" id="currentTitle">No track selected</div>
+                <div class="track-number" id="currentNumber"></div>
+            </div>
+            
+            <audio id="audioPlayer" controls></audio>
+            
+            <div class="controls">
+                <button id="prevBtn">⏮ Previous</button>
+                <button id="nextBtn">Next ⏭</button>
+                <button id="shuffleBtn">🔀 Shuffle Now</button>
+                <button id="autoShuffleBtn" class="auto-shuffle-off">🔄 Auto-Shuffle: OFF</button>
+            </div>
+            
+            <div class="status loop-indicator">
+                🔄 Continuous Loop Mode Active
+            </div>
+            
+            <div id="statusDisplay" class="status" style="display: none;"></div>
+        </div>
+        
+        <div class="playlist-section">
+            <div class="add-track">
+                <input type="url" id="urlInput" placeholder="Enter audio URL (direct link to .mp3, .wav, etc.)" />
+                <button class="add-btn" id="addBtn">Add Track</button>
+            </div>
+            
+            <div class="playlist" id="playlist">
+                <div style="text-align: center; opacity: 0.6; padding: 20px;">
+                    No tracks added yet. Add some audio URLs above!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class PlaylistPlayer {
+            constructor() {
+                this.tracks = [];
+                this.currentIndex = 0;
+                this.isPlaying = false;
+                this.shouldAutoPlay = false; // Track if we should auto-continue playing
+                this.autoShuffleEnabled = false; // Track if auto-shuffle is enabled
+                this.audioPlayer = document.getElementById('audioPlayer');
+                this.playlistElement = document.getElementById('playlist');
+                this.statusDisplay = document.getElementById('statusDisplay');
+                
+                this.initializeElements();
+                this.setupEventListeners();
+                this.loadFromStorage();
+            }
+            
+            initializeElements() {
+                this.urlInput = document.getElementById('urlInput');
+                this.addBtn = document.getElementById('addBtn');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.shuffleBtn = document.getElementById('shuffleBtn');
+                this.autoShuffleBtn = document.getElementById('autoShuffleBtn');
+                this.currentTitle = document.getElementById('currentTitle');
+                this.currentNumber = document.getElementById('currentNumber');
+            }
+            
+            setupEventListeners() {
+                this.addBtn.addEventListener('click', () => this.addTrack());
+                this.urlInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.addTrack();
+                });
+                
+                this.prevBtn.addEventListener('click', () => this.previousTrack());
+                this.nextBtn.addEventListener('click', () => this.nextTrack());
+                this.shuffleBtn.addEventListener('click', () => this.shufflePlaylist());
+                this.autoShuffleBtn.addEventListener('click', () => this.toggleAutoShuffle());
+                
+                this.audioPlayer.addEventListener('ended', () => {
+                    // When a track ends naturally, we should continue playing
+                    this.shouldAutoPlay = true;
+                    
+                    // Check if we're at the last track and auto-shuffle is enabled
+                    if (this.currentIndex === this.tracks.length - 1 && this.autoShuffleEnabled) {
+                        this.shufflePlaylist();
+                        this.showStatus('Auto-shuffling playlist!', 'playing');
+                        setTimeout(() => this.hideStatus(), 2000);
+                    }
+                    
+                    this.nextTrack();
+                });
+                this.audioPlayer.addEventListener('play', () => {
+                    this.shouldAutoPlay = true; // User started playing, remember this
+                    this.updatePlayPauseButton(true);
+                });
+                this.audioPlayer.addEventListener('pause', () => {
+                    // Only stop auto-playing if user manually paused
+                    if (!this.audioPlayer.ended) {
+                        this.shouldAutoPlay = false;
+                    }
+                    this.updatePlayPauseButton(false);
+                });
+                this.audioPlayer.addEventListener('error', (e) => this.handleAudioError(e));
+                this.audioPlayer.addEventListener('loadstart', () => this.showStatus('Loading track...', 'playing'));
+                this.audioPlayer.addEventListener('canplay', () => this.hideStatus());
+            }
+            
+            addTrack() {
+                const url = this.urlInput.value.trim();
+                if (!url) return;
+                
+                // More lenient URL validation for audio content
+                if (!this.isValidUrl(url)) {
+                    this.showStatus('Please enter a valid URL', 'error');
+                    return;
+                }
+                
+                this.tracks.push(url);
+                this.urlInput.value = '';
+                this.renderPlaylist();
+                this.saveToStorage();
+                
+                if (this.tracks.length === 1) {
+                    this.loadTrack(0);
+                }
+                
+                this.showStatus('Track added! Testing playback...', 'playing');
+            }
+            
+            isValidUrl(url) {
+                try {
+                    new URL(url);
+                    return true;
+                } catch {
+                    return false;
+                }
+            }
+            
+            // Keep the old function but make it less restrictive
+            isValidAudioUrl(url) {
+                try {
+                    const urlObj = new URL(url);
+                    const audioExtensions = ['.mp3', '.wav', '.ogg', '.m4a', '.aac', '.flac', '.webm'];
+                    const hasAudioExt = audioExtensions.some(ext => 
+                        urlObj.pathname.toLowerCase().includes(ext)
+                    );
+                    // Accept URLs with audio extensions or common audio-related terms
+                    return hasAudioExt || 
+                           url.toLowerCase().includes('audio') || 
+                           url.toLowerCase().includes('music') ||
+                           url.toLowerCase().includes('sound') ||
+                           url.toLowerCase().includes('track') ||
+                           url.toLowerCase().includes('podcast');
+                } catch {
+                    return false;
+                }
+            }
+            
+            removeTrack(index) {
+                if (index === this.currentIndex && this.isPlaying) {
+                    this.audioPlayer.pause();
+                }
+                
+                this.tracks.splice(index, 1);
+                
+                if (index < this.currentIndex) {
+                    this.currentIndex--;
+                } else if (index === this.currentIndex && this.currentIndex >= this.tracks.length) {
+                    this.currentIndex = 0;
+                }
+                
+                this.renderPlaylist();
+                this.saveToStorage();
+                
+                if (this.tracks.length === 0) {
+                    this.audioPlayer.src = '';
+                    this.currentTitle.textContent = 'No track selected';
+                    this.currentNumber.textContent = '';
+                } else {
+                    this.loadTrack(this.currentIndex);
+                }
+            }
+            
+            loadTrack(index, forceAutoPlay = false) {
+                if (index < 0 || index >= this.tracks.length) return;
+                
+                this.currentIndex = index;
+                this.audioPlayer.src = this.tracks[index];
+                
+                const trackName = this.getTrackName(this.tracks[index]);
+                this.currentTitle.textContent = trackName;
+                this.currentNumber.textContent = `Track ${index + 1} of ${this.tracks.length}`;
+                
+                this.renderPlaylist();
+                
+                // Auto-play if we should be playing or if forced
+                if (this.shouldAutoPlay || forceAutoPlay) {
+                    // Use multiple attempts to ensure playback starts
+                    const attemptPlay = () => {
+                        this.audioPlayer.play().then(() => {
+                            console.log('Auto-play successful');
+                        }).catch(e => {
+                            console.log('Auto-play failed, retrying...', e);
+                            // Retry after a short delay
+                            setTimeout(attemptPlay, 100);
+                        });
+                    };
+                    
+                    // Try immediately and also after load
+                    attemptPlay();
+                    this.audioPlayer.addEventListener('canplay', attemptPlay, { once: true });
+                }
+            }
+            
+            getTrackName(url) {
+                try {
+                    const urlObj = new URL(url);
+                    const pathname = urlObj.pathname;
+                    const filename = pathname.split('/').pop();
+                    return filename || `Track from ${urlObj.hostname}`;
+                } catch {
+                    return 'Unknown Track';
+                }
+            }
+            
+            previousTrack() {
+                if (this.tracks.length === 0) return;
+                
+                const newIndex = this.currentIndex - 1 < 0 
+                    ? this.tracks.length - 1 
+                    : this.currentIndex - 1;
+                
+                this.loadTrack(newIndex);
+            }
+            
+            nextTrack() {
+                if (this.tracks.length === 0) return;
+                
+                const newIndex = (this.currentIndex + 1) % this.tracks.length;
+                this.loadTrack(newIndex);
+            }
+            
+            toggleAutoShuffle() {
+                this.autoShuffleEnabled = !this.autoShuffleEnabled;
+                
+                if (this.autoShuffleEnabled) {
+                    this.autoShuffleBtn.textContent = '🔄 Auto-Shuffle: ON';
+                    this.autoShuffleBtn.className = 'auto-shuffle-on';
+                    this.showStatus('Auto-shuffle enabled! Playlist will shuffle after last track', 'playing');
+                } else {
+                    this.autoShuffleBtn.textContent = '🔄 Auto-Shuffle: OFF';
+                    this.autoShuffleBtn.className = 'auto-shuffle-off';
+                    this.showStatus('Auto-shuffle disabled', 'playing');
+                }
+                
+                setTimeout(() => this.hideStatus(), 2000);
+                this.saveToStorage();
+            }
+            
+            togglePlayPause() {
+                if (this.tracks.length === 0) {
+                    this.showStatus('Add some tracks first!', 'error');
+                    return;
+                }
+                
+                if (this.audioPlayer.paused) {
+                    this.shouldAutoPlay = true; // User wants to play
+                    this.audioPlayer.play().catch(e => this.handleAudioError(e));
+                } else {
+                    this.shouldAutoPlay = false; // User wants to pause
+                    this.audioPlayer.pause();
+                }
+            }
+            
+            updatePlayPauseButton(playing) {
+                this.isPlaying = playing;
+                this.playPauseBtn.textContent = playing ? '⏸ Pause' : '▶ Play';
+            }
+            
+            shufflePlaylist() {
+                if (this.tracks.length < 2) return;
+                
+                const currentTrack = this.tracks[this.currentIndex];
+                
+                for (let i = this.tracks.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [this.tracks[i], this.tracks[j]] = [this.tracks[j], this.tracks[i]];
+                }
+                
+                this.currentIndex = this.tracks.indexOf(currentTrack);
+                this.renderPlaylist();
+                this.saveToStorage();
+                
+                this.showStatus('Playlist shuffled!', 'playing');
+                setTimeout(() => this.hideStatus(), 2000);
+            }
+            
+            renderPlaylist() {
+                if (this.tracks.length === 0) {
+                    this.playlistElement.innerHTML = `
+                        <div style="text-align: center; opacity: 0.6; padding: 20px;">
+                            No tracks added yet. Add some audio URLs above!
+                        </div>
+                    `;
+                    return;
+                }
+                
+                this.playlistElement.innerHTML = this.tracks.map((track, index) => `
+                    <div class="track-item ${index === this.currentIndex ? 'current' : ''}" 
+                         onclick="player.loadTrack(${index})">
+                        <div class="track-info">
+                            <div>Track ${index + 1}: ${this.getTrackName(track)}</div>
+                            <div class="track-url">${track}</div>
+                        </div>
+                        <button class="remove-btn" onclick="event.stopPropagation(); player.removeTrack(${index})">
+                            Remove
+                        </button>
+                    </div>
+                `).join('');
+            }
+            
+            handleAudioError(e) {
+                console.error('Audio error:', e);
+                
+                let errorMessage = 'Error loading audio: ';
+                
+                if (e.target && e.target.error) {
+                    switch(e.target.error.code) {
+                        case e.target.error.MEDIA_ERR_ABORTED:
+                            errorMessage += 'Playback aborted';
+                            break;
+                        case e.target.error.MEDIA_ERR_NETWORK:
+                            errorMessage += 'Network error - check your connection';
+                            break;
+                        case e.target.error.MEDIA_ERR_DECODE:
+                            errorMessage += 'Audio format not supported';
+                            break;
+                        case e.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                            errorMessage += 'Audio source not supported or CORS blocked';
+                            break;
+                        default:
+                            errorMessage += 'Unknown error';
+                    }
+                } else {
+                    errorMessage += 'CORS restriction or invalid URL';
+                }
+                
+                this.showStatus(errorMessage, 'error');
+                
+                // Try to play next track after a short delay
+                setTimeout(() => {
+                    if (this.tracks.length > 1) {
+                        const wasPlaying = !this.audioPlayer.paused || this.isPlaying;
+                        this.nextTrack();
+                    }
+                }, 2000);
+            }
+            
+            showStatus(message, type) {
+                this.statusDisplay.textContent = message;
+                this.statusDisplay.className = `status ${type}`;
+                this.statusDisplay.style.display = 'block';
+            }
+            
+            hideStatus() {
+                this.statusDisplay.style.display = 'none';
+            }
+            
+            saveToStorage() {
+                const data = {
+                    tracks: this.tracks,
+                    currentIndex: this.currentIndex,
+                    autoShuffleEnabled: this.autoShuffleEnabled
+                };
+                // Note: localStorage not available in Claude artifacts
+                // Data will persist only during the current session
+            }
+            
+            loadFromStorage() {
+                // Note: localStorage not available in Claude artifacts
+                // Starting with empty playlist each time
+            }
+        }
+        
+        // Initialize the player
+        const player = new PlaylistPlayer();
+    </script>
+</body>
+</html>
