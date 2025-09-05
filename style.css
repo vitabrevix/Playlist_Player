@@ -1,0 +1,506 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    max-width: 800px;
+    width: 90%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin: 0;
+}
+
+.player-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.current-track {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.track-title {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.track-number {
+    opacity: 0.8;
+    font-size: 0.9em;
+}
+
+audio {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+button {
+    background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.dark-mode-toggle {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.dark-mode-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    background: rgba(255, 255, 255, 0.2);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+body.light-mode .dark-mode-toggle {
+    background: rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    color: #333;
+}
+
+body.light-mode .dark-mode-toggle:hover {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.auto-shuffle-on {
+    background: linear-gradient(45deg, #4ECDC4, #44A08D) !important;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3) !important;
+}
+
+.auto-shuffle-off {
+    background: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1) !important;
+}
+
+.playlist-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.add-track {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+input[type="url"] {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1em;
+    min-width: 250px;
+}
+
+input[type="url"]::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.add-btn {
+    background: linear-gradient(45deg, #4ECDC4, #44A08D);
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+}
+
+.add-btn:hover {
+    box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+}
+
+.playlist-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    padding: 10px 20px;
+    font-size: 0.9em;
+}
+
+.clear-btn {
+    background: linear-gradient(45deg, #E74C3C, #C0392B);
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.clear-btn:hover {
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.import-btn {
+    background: linear-gradient(45deg, #3498DB, #2980B9);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.import-btn:hover {
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+}
+
+.export-btn {
+    background: linear-gradient(45deg, #9B59B6, #8E44AD);
+    box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
+}
+
+.export-btn:hover {
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+}
+
+.playlist {
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.track-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.track-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.track-item.current {
+    background: rgba(255, 107, 107, 0.2);
+    border-left-color: #FF6B6B;
+    box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+}
+
+.track-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.track-url {
+    font-size: 0.9em;
+    opacity: 0.8;
+    word-break: break-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.remove-btn {
+    background: linear-gradient(45deg, #FF6B6B, #FF5722);
+    padding: 6px 12px;
+    font-size: 0.8em;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+    margin-left: 10px;
+}
+
+.status {
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.status.playing {
+    background: rgba(78, 205, 196, 0.2);
+    border: 1px solid rgba(78, 205, 196, 0.5);
+    color: #4ECDC4;
+}
+
+.status.error {
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid rgba(255, 107, 107, 0.5);
+    color: #FF6B6B;
+}
+
+.loop-indicator {
+    background: rgba(255, 193, 7, 0.2);
+    border: 1px solid rgba(255, 193, 7, 0.5);
+    color: #FFC107;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+	
+	.header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+	
+	.dark-mode-toggle {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1em;
+    }
+    
+    .controls {
+        gap: 10px;
+    }
+    
+    button {
+        padding: 10px 16px;
+        font-size: 0.9em;
+    }
+    
+    .add-track {
+        flex-direction: column;
+    }
+    
+    input[type="url"] {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .playlist-controls {
+        gap: 8px;
+    }
+    
+    .control-btn {
+        padding: 8px 16px;
+        font-size: 0.8em;
+    }
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d30 100%);
+    color: #e0e0e0;
+}
+
+body.dark-mode .container {
+    background: rgba(20, 20, 20, 0.95);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .player-section,
+body.dark-mode .playlist-section {
+    background: rgba(15, 15, 15, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode input[type="url"] {
+    background: rgba(40, 40, 40, 0.9);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode input[type="url"]::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+body.dark-mode .playlist {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .track-item {
+    background: rgba(30, 30, 30, 0.7);
+    color: #e0e0e0;
+}
+
+body.dark-mode .track-item:hover {
+    background: rgba(50, 50, 50, 0.8);
+}
+
+body.dark-mode .track-item.current {
+    background: rgba(80, 40, 40, 0.8);
+    border-left-color: #cc5555;
+}
+
+body.dark-mode .status.playing {
+    background: rgba(40, 80, 78, 0.8);
+    border: 1px solid rgba(78, 205, 196, 0.3);
+    color: #66b3b0;
+}
+
+body.dark-mode .status.error {
+    background: rgba(80, 40, 40, 0.8);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    color: #cc8888;
+}
+
+body.dark-mode .loop-indicator {
+    background: rgba(80, 75, 30, 0.8);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    color: #d4b85a;
+}
+
+/* Dark mode toggle adjustments */
+body.dark-mode .dark-mode-toggle {
+    background: rgba(60, 60, 60, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    color: #e0e0e0;
+}
+
+body.dark-mode .dark-mode-toggle:hover {
+    background: rgba(80, 80, 80, 0.9);
+}
+
+/* Dim the buttons in dark mode */
+body.dark-mode button:not(.dark-mode-toggle) {
+    opacity: 0.85;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode button:not(.dark-mode-toggle):hover {
+    opacity: 1;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Dark mode button styles */
+body.dark-mode button:not(.dark-mode-toggle) {
+    background: linear-gradient(45deg, #3a3a3a, #2d2d2d);
+    opacity: 1; /* Remove the previous opacity rule */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode button:not(.dark-mode-toggle):hover {
+    background: linear-gradient(45deg, #4a4a4a, #3d3d3d);
+    opacity: 1; /* Remove the previous opacity rule */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8);
+    transform: translateY(-2px);
+}
+
+/* Specific dark mode overrides for colored buttons */
+body.dark-mode .add-btn {
+    background: linear-gradient(45deg, #2d4a47, #1f3530) !important;
+}
+
+body.dark-mode .add-btn:hover {
+    background: linear-gradient(45deg, #3a5a57, #2d4540) !important;
+}
+
+body.dark-mode .clear-btn {
+    background: linear-gradient(45deg, #4a2d2d, #351f1f) !important;
+}
+
+body.dark-mode .clear-btn:hover {
+    background: linear-gradient(45deg, #5a3a3a, #452d2d) !important;
+}
+
+body.dark-mode .import-btn {
+    background: linear-gradient(45deg, #2d3a4a, #1f2735) !important;
+}
+
+body.dark-mode .import-btn:hover {
+    background: linear-gradient(45deg, #3a4a5a, #2d3545) !important;
+}
+
+body.dark-mode .export-btn {
+    background: linear-gradient(45deg, #3a2d4a, #2a1f35) !important;
+}
+
+body.dark-mode .export-btn:hover {
+    background: linear-gradient(45deg, #4a3a5a, #3a2d45) !important;
+}
+
+body.dark-mode .auto-shuffle-on {
+    background: linear-gradient(45deg, #2d4a47, #1f3530) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
+}
+
+body.dark-mode .auto-shuffle-off {
+    background: rgba(60, 60, 60, 0.6) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-mode .remove-btn {
+    background: linear-gradient(45deg, #4a2d2d, #351f1f);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
