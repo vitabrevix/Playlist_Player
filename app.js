@@ -1,11 +1,11 @@
 class PlaylistPlayer {
 	constructor() {
-		this.tracks = []; // Now stores objects: { title: "...", url: "..." }
+		this.tracks = [];
 		this.currentIndex = 0;
 		this.isPlaying = false;
 		this.shouldAutoPlay = false;
 		this.autoShuffleEnabled = false;
-		this.loopEnabled = true; // Loop is ON by default
+		this.loopMode = 'all';
 		this.audioPlayer = document.getElementById('audioPlayer');
 		this.playlistElement = document.getElementById('playlist');
 		this.statusDisplay = document.getElementById('statusDisplay');
@@ -132,8 +132,16 @@ class PlaylistPlayer {
 		});
 		
 		this.audioPlayer.addEventListener('ended', () => {
-			// If we're at the last track and loop is disabled, stop
-			if (this.currentIndex === this.tracks.length - 1 && !this.loopEnabled) {
+			// Handle loop mode: 'one' (repeat current track)
+			if (this.loopMode === 'one') {
+				this.shouldAutoPlay = true;
+				this.audioPlayer.currentTime = 0;
+				this.audioPlayer.play();
+				return;
+			}
+			
+			// If we're at the last track and loop is off, stop
+			if (this.currentIndex === this.tracks.length - 1 && this.loopMode === 'off') {
 				this.shouldAutoPlay = false;
 				return;
 			}
@@ -166,7 +174,6 @@ class PlaylistPlayer {
 	async loadCollections() {
 		try {
 			// Load collections from database.js (audioCollections array)
-			// Format: [name, description, [track objects or urls]]
 			if (typeof audioCollections !== 'undefined') {
 				this.collections = audioCollections.map((collection, index) => {
 					const [title, description, tracks] = collection;
@@ -175,7 +182,6 @@ class PlaylistPlayer {
 						title: title,
 						description: description,
 						tracks: tracks.map((track, trackIndex) => {
-							// Handle both old format (strings) and new format (objects)
 							if (typeof track === 'string') {
 								return {
 									title: this.getTrackName(track),
@@ -645,16 +651,22 @@ class PlaylistPlayer {
 	}
 	
 	toggleLoop() {
-		this.loopEnabled = !this.loopEnabled;
-		
-		if (this.loopEnabled) {
-			this.loopBtn.textContent = '🔁 Loop: ON';
-			this.loopBtn.className = 'loop-on';
-			this.showStatus('Loop enabled! Playlist will restart after last track.', 'playing');
-		} else {
+		// Cycle through: all -> one -> off -> all
+		if (this.loopMode === 'all') {
+			this.loopMode = 'one';
+			this.loopBtn.textContent = '🔂 Loop: Current Track';
+			this.loopBtn.className = 'loop-one';
+			this.showStatus('Loop mode: Current track will repeat', 'playing');
+		} else if (this.loopMode === 'one') {
+			this.loopMode = 'off';
 			this.loopBtn.textContent = '🔁 Loop: OFF';
 			this.loopBtn.className = 'loop-off';
 			this.showStatus('Loop disabled! Playlist will stop after last track.', 'playing');
+		} else {
+			this.loopMode = 'all';
+			this.loopBtn.textContent = '🔁 Loop: All Tracks';
+			this.loopBtn.className = 'loop-on';
+			this.showStatus('Loop mode: All tracks will repeat', 'playing');
 		}
 		
 		setTimeout(() => this.hideStatus(), 2000);
@@ -920,7 +932,7 @@ class PlaylistPlayer {
 				tracks: this.tracks,
 				currentIndex: this.currentIndex,
 				autoShuffleEnabled: this.autoShuffleEnabled,
-				loopEnabled: this.loopEnabled,
+				loopMode: this.loopMode,
 				darkMode: document.body.classList.contains('dark-mode')
 			};
 			localStorage.setItem('audioPlaylistPlayer', JSON.stringify(data));
@@ -953,8 +965,16 @@ class PlaylistPlayer {
 				
 				this.currentIndex = parsed.currentIndex || 0;
 				this.autoShuffleEnabled = parsed.autoShuffleEnabled || false;
-				// Load loopEnabled state, default to true if not set
-				this.loopEnabled = parsed.loopEnabled !== undefined ? parsed.loopEnabled : true;
+				
+				// Migrate from old loopEnabled to new loopMode
+				if (parsed.loopMode) {
+					this.loopMode = parsed.loopMode;
+				} else if (parsed.loopEnabled !== undefined) {
+					// Migrate old boolean loopEnabled to new loopMode
+					this.loopMode = parsed.loopEnabled ? 'all' : 'off';
+				} else {
+					this.loopMode = 'all'; // Default to 'all'
+				}
 				
 				if (parsed.darkMode) {
 					document.body.classList.add('dark-mode');
@@ -966,9 +986,13 @@ class PlaylistPlayer {
 					this.autoShuffleBtn.className = 'auto-shuffle-on';
 				}
 				
-				if (this.loopEnabled) {
-					this.loopBtn.textContent = '🔁 Loop: ON';
+				// Update loop button based on loopMode
+				if (this.loopMode === 'all') {
+					this.loopBtn.textContent = '🔁 Loop: All Tracks';
 					this.loopBtn.className = 'loop-on';
+				} else if (this.loopMode === 'one') {
+					this.loopBtn.textContent = '🔂 Loop: Current Track';
+					this.loopBtn.className = 'loop-one';
 				} else {
 					this.loopBtn.textContent = '🔁 Loop: OFF';
 					this.loopBtn.className = 'loop-off';
