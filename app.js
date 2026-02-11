@@ -1,16 +1,20 @@
 class PlaylistPlayer {
 	constructor() {
-		this.tracks = [];
+		this.tracks = []; // Now stores objects: { title: "...", url: "..." }
 		this.currentIndex = 0;
 		this.isPlaying = false;
-		this.shouldAutoPlay = false; // Track if we should auto-continue playing
-		this.autoShuffleEnabled = false; // Track if auto-shuffle is enabled
+		this.shouldAutoPlay = false;
+		this.autoShuffleEnabled = false;
+		this.loopEnabled = true; // Loop is ON by default
 		this.audioPlayer = document.getElementById('audioPlayer');
 		this.playlistElement = document.getElementById('playlist');
 		this.statusDisplay = document.getElementById('statusDisplay');
+		this.collections = [];
+		this.customCollections = [];
 		
 		this.initializeElements();
 		this.setupEventListeners();
+		this.loadCollections();
 		this.loadFromStorage();
 	}
 	
@@ -21,13 +25,31 @@ class PlaylistPlayer {
 		this.nextBtn = document.getElementById('nextBtn');
 		this.shuffleBtn = document.getElementById('shuffleBtn');
 		this.autoShuffleBtn = document.getElementById('autoShuffleBtn');
+		this.loopBtn = document.getElementById('loopBtn');
 		this.currentTitle = document.getElementById('currentTitle');
 		this.currentNumber = document.getElementById('currentNumber');
 		this.darkModeBtn = document.getElementById('darkModeBtn');
 		this.clearBtn = document.getElementById('clearBtn');
 		this.importBtn = document.getElementById('importBtn');
 		this.exportBtn = document.getElementById('exportBtn');
+		this.saveAsDrawerBtn = document.getElementById('saveAsDrawerBtn');
 		this.importFile = document.getElementById('importFile');
+		this.drawersContainer = document.getElementById('drawers-container');
+		this.createDrawerBtn = document.getElementById('createDrawerBtn');
+		
+		// Save collection form elements
+		this.saveCollectionForm = document.getElementById('saveCollectionForm');
+		this.saveCollectionName = document.getElementById('saveCollectionName');
+		this.saveCollectionDescription = document.getElementById('saveCollectionDescription');
+		this.saveCollectionConfirmBtn = document.getElementById('saveCollectionConfirmBtn');
+		this.saveCollectionCancelBtn = document.getElementById('saveCollectionCancelBtn');
+		
+		// New collection form elements
+		this.newCollectionForm = document.getElementById('newCollectionForm');
+		this.newCollectionName = document.getElementById('newCollectionName');
+		this.newCollectionDescription = document.getElementById('newCollectionDescription');
+		this.saveCollectionBtn = document.getElementById('saveCollectionBtn');
+		this.cancelCollectionBtn = document.getElementById('cancelCollectionBtn');
 	}
 	
 	setupEventListeners() {
@@ -40,19 +62,84 @@ class PlaylistPlayer {
 		this.nextBtn.addEventListener('click', () => this.nextTrack());
 		this.shuffleBtn.addEventListener('click', () => this.shufflePlaylist());
 		this.autoShuffleBtn.addEventListener('click', () => this.toggleAutoShuffle());
+		this.loopBtn.addEventListener('click', () => this.toggleLoop());
 		this.darkModeBtn.addEventListener('click', () => this.toggleDarkMode());
 		
-		// Fixed: Add event listeners for clear, import, and export buttons
-		this.clearBtn.addEventListener('click', () => this.clearPlaylist());
-		this.importBtn.addEventListener('click', () => this.importFile.click());
-		this.exportBtn.addEventListener('click', () => this.exportPlaylist());
+		if (this.clearBtn) {
+			this.clearBtn.addEventListener('click', () => this.clearPlaylist());
+		}
+		
+		if (this.importBtn) {
+			this.importBtn.addEventListener('click', () => this.importFile.click());
+		}
+		
+		if (this.exportBtn) {
+			this.exportBtn.addEventListener('click', () => this.exportPlaylist());
+		}
+		
+		if (this.saveAsDrawerBtn) {
+			this.saveAsDrawerBtn.addEventListener('click', () => this.savePlaylistAsDrawer());
+		}
+		
 		this.importFile.addEventListener('change', (e) => this.importPlaylist(e));
 		
+		this.createDrawerBtn.addEventListener('click', () => this.toggleCollectionForm());
+		this.saveCollectionBtn.addEventListener('click', () => this.saveNewCollection());
+		this.cancelCollectionBtn.addEventListener('click', () => this.hideCollectionForm());
+		
+		// Save collection form listeners
+		if (this.saveCollectionConfirmBtn) {
+			this.saveCollectionConfirmBtn.addEventListener('click', () => this.confirmSavePlaylistAsDrawer());
+		}
+		if (this.saveCollectionCancelBtn) {
+			this.saveCollectionCancelBtn.addEventListener('click', () => this.hideSaveCollectionForm());
+		}
+		
+		// Event delegation for delete buttons
+		this.drawersContainer.addEventListener('click', (e) => {
+			// Check if click was on delete button or its parent
+			const deleteTrackBtn = e.target.closest('.drawer-item-delete-btn');
+			const deleteCollectionBtn = e.target.closest('.drawer-delete-btn');
+			const addAllBtn = e.target.closest('.drawer-add-all-btn');
+			
+			// Add all tracks from drawer to playlist
+			if (addAllBtn) {
+				e.stopPropagation();
+				e.preventDefault();
+				const collectionId = addAllBtn.getAttribute('data-collection-id');
+				this.addAllTracksFromDrawer(collectionId);
+				return;
+			}
+			
+			// Delete track from collection
+			if (deleteTrackBtn) {
+				e.stopPropagation();
+				e.preventDefault();
+				const collectionId = deleteTrackBtn.getAttribute('data-collection-id');
+				const trackIndex = parseInt(deleteTrackBtn.getAttribute('data-track-index'));
+				this.deleteTrackFromDrawer(collectionId, trackIndex);
+				return;
+			}
+			
+			// Delete entire collection
+			if (deleteCollectionBtn) {
+				e.stopPropagation();
+				e.preventDefault();
+				const collectionId = deleteCollectionBtn.getAttribute('data-collection-id');
+				this.deleteDrawer(collectionId);
+				return;
+			}
+		});
+		
 		this.audioPlayer.addEventListener('ended', () => {
-			// When a track ends naturally, we should continue playing
+			// If we're at the last track and loop is disabled, stop
+			if (this.currentIndex === this.tracks.length - 1 && !this.loopEnabled) {
+				this.shouldAutoPlay = false;
+				return;
+			}
+			
 			this.shouldAutoPlay = true;
 			
-			// Check if we're at the last track and auto-shuffle is enabled
 			if (this.currentIndex === this.tracks.length - 1 && this.autoShuffleEnabled) {
 				this.shufflePlaylist();
 				this.showStatus('Auto-shuffling playlist!', 'playing');
@@ -62,11 +149,10 @@ class PlaylistPlayer {
 			this.nextTrack();
 		});
 		this.audioPlayer.addEventListener('play', () => {
-			this.shouldAutoPlay = true; // User started playing, remember this
+			this.shouldAutoPlay = true;
 			this.updatePlayPauseButton(true);
 		});
 		this.audioPlayer.addEventListener('pause', () => {
-			// Only stop auto-playing if user manually paused
 			if (!this.audioPlayer.ended) {
 				this.shouldAutoPlay = false;
 			}
@@ -77,27 +163,371 @@ class PlaylistPlayer {
 		this.audioPlayer.addEventListener('canplay', () => this.hideStatus());
 	}
 	
-	toggleDarkMode() {
-		document.body.classList.toggle('dark-mode');
-		const isDarkMode = document.body.classList.contains('dark-mode');
+	async loadCollections() {
+		try {
+			// Load collections from database.js (audioCollections array)
+			// Format: [name, description, [track objects or urls]]
+			if (typeof audioCollections !== 'undefined') {
+				this.collections = audioCollections.map((collection, index) => {
+					const [title, description, tracks] = collection;
+					return {
+						id: `collection_${index}`,
+						title: title,
+						description: description,
+						tracks: tracks.map((track, trackIndex) => {
+							// Handle both old format (strings) and new format (objects)
+							if (typeof track === 'string') {
+								return {
+									title: this.getTrackName(track),
+									url: track
+								};
+							} else {
+								return {
+									title: track.title || this.getTrackName(track.url),
+									url: track.url
+								};
+							}
+						})
+					};
+				});
+			} else {
+				console.warn('audioCollections not found in database.js');
+				this.collections = [];
+			}
+			
+			// Load custom collections from localStorage
+			const savedCustom = localStorage.getItem('customCollections');
+			if (savedCustom) {
+				this.customCollections = JSON.parse(savedCustom);
+			}
+			
+			this.renderDrawers();
+		} catch (error) {
+			console.error('Error loading collections:', error);
+			this.showStatus('Error loading audio collections', 'error');
+			setTimeout(() => this.hideStatus(), 3000);
+		}
+	}
+	
+	renderDrawers() {
+		this.drawersContainer.innerHTML = '';
 		
-		this.darkModeBtn.textContent = isDarkMode ? '☀️' : '🌙';
+		// Render default collections
+		this.collections.forEach(collection => {
+			this.renderDrawer(collection, false);
+		});
 		
-		this.showStatus(`${isDarkMode ? 'Dark' : 'Light'} mode activated!`, 'playing');
+		// Render custom collections
+		this.customCollections.forEach(collection => {
+			this.renderDrawer(collection, true);
+		});
+	}
+	
+	renderDrawer(collection, isCustom) {
+		const drawer = document.createElement('div');
+		drawer.className = 'drawer';
+		drawer.dataset.drawerId = collection.id;
+		
+		const header = document.createElement('div');
+		header.className = 'drawer-header';
+		header.dataset.drawer = collection.id;
+		
+		const headerContent = document.createElement('div');
+		headerContent.style.flex = '1';
+		headerContent.innerHTML = `
+			<div style="display: flex; align-items: center; gap: 10px;">
+				<span class="drawer-icon">▶</span>
+				<div style="flex: 1;">
+					<div style="display: flex; align-items: center; gap: 8px;">
+						<span class="drawer-title">${collection.title}</span>
+						<span class="drawer-count">(${collection.tracks.length} tracks)</span>
+					</div>
+					${collection.description ? `<div style="font-size: 0.85em; opacity: 0.7; margin-top: 4px;">${collection.description}</div>` : ''}
+				</div>
+			</div>
+		`;
+		
+		header.appendChild(headerContent);
+		
+		// Add actions container for all drawers
+		const actions = document.createElement('div');
+		actions.className = 'drawer-actions';
+		
+		// Add "Add All to Playlist" button for all drawers
+		const addAllBtn = document.createElement('button');
+		addAllBtn.className = 'drawer-add-all-btn';
+		addAllBtn.textContent = '➕ Add All to Playlist';
+		addAllBtn.setAttribute('data-collection-id', collection.id);
+		actions.appendChild(addAllBtn);
+		
+		// Add delete button only for custom drawers
+		if (isCustom) {
+			const deleteBtn = document.createElement('button');
+			deleteBtn.className = 'drawer-delete-btn';
+			deleteBtn.textContent = '🗑️ Delete';
+			deleteBtn.setAttribute('data-collection-id', collection.id);
+			actions.appendChild(deleteBtn);
+		}
+		
+		header.appendChild(actions);
+		
+		const content = document.createElement('div');
+		content.className = 'drawer-content';
+		content.id = `drawer-${collection.id}`;
+		
+		// Render tracks
+		collection.tracks.forEach((track, index) => {
+			const item = document.createElement('div');
+			item.className = 'drawer-item';
+			
+			const itemHeader = document.createElement('div');
+			itemHeader.className = 'drawer-item-header';
+			itemHeader.innerHTML = `
+				<span class="drawer-item-title">${track.title}</span>
+			`;
+			
+			const itemUrl = document.createElement('div');
+			itemUrl.className = 'drawer-item-url';
+			itemUrl.textContent = track.url;
+			
+			item.appendChild(itemHeader);
+			item.appendChild(itemUrl);
+			
+			// Add delete button for custom drawer tracks
+			if (isCustom) {
+				const deleteTrackBtn = document.createElement('button');
+				deleteTrackBtn.className = 'drawer-item-delete-btn';
+				deleteTrackBtn.textContent = '🗑️';
+				deleteTrackBtn.title = 'Delete this track';
+				deleteTrackBtn.setAttribute('data-collection-id', collection.id);
+				deleteTrackBtn.setAttribute('data-track-index', index);
+				itemHeader.appendChild(deleteTrackBtn);
+			}
+			
+			// Click to add track to playlist
+			item.addEventListener('click', (e) => {
+				// Don't add track if clicking on delete button
+				if (e.target.closest('.drawer-item-delete-btn')) {
+					return;
+				}
+				this.addTrackFromDrawer(track.url, track.title);
+			});
+			
+			content.appendChild(item);
+		});
+		
+		// Add "Add Track" form for custom drawers
+		if (isCustom) {
+			const addTrackSection = document.createElement('div');
+			addTrackSection.className = 'add-track-section';
+			addTrackSection.innerHTML = `
+				<button class="drawer-add-track-toggle" data-collection-id="${collection.id}">
+					➕ Add Track to Collection
+				</button>
+				<div class="new-track-form" id="track-form-${collection.id}" style="display: none;">
+					<div class="form-group">
+						<input type="url" class="track-url-input" placeholder="Audio URL *" />
+					</div>
+					<div class="form-group">
+						<input type="text" class="track-title-input" placeholder="Track Title (optional - auto-generated if empty)" />
+					</div>
+					<div class="form-actions">
+						<button class="form-btn save-btn track-save-btn">Add Track</button>
+						<button class="form-btn cancel-btn track-cancel-btn">Cancel</button>
+					</div>
+				</div>
+			`;
+			
+			const toggleBtn = addTrackSection.querySelector('.drawer-add-track-toggle');
+			const trackForm = addTrackSection.querySelector('.new-track-form');
+			const urlInput = addTrackSection.querySelector('.track-url-input');
+			const titleInput = addTrackSection.querySelector('.track-title-input');
+			const saveBtn = addTrackSection.querySelector('.track-save-btn');
+			const cancelBtn = addTrackSection.querySelector('.track-cancel-btn');
+			
+			toggleBtn.addEventListener('click', () => {
+				if (trackForm.style.display === 'none') {
+					trackForm.style.display = 'block';
+					toggleBtn.textContent = '✖️ Cancel';
+					urlInput.focus();
+				} else {
+					trackForm.style.display = 'none';
+					toggleBtn.textContent = '➕ Add Track to Collection';
+					urlInput.value = '';
+					titleInput.value = '';
+				}
+			});
+			
+			saveBtn.addEventListener('click', () => {
+				const url = urlInput.value.trim();
+				
+				if (!url) {
+					this.showStatus('Please enter a URL!', 'error');
+					setTimeout(() => this.hideStatus(), 2000);
+					return;
+				}
+				
+				if (!this.isValidUrl(url)) {
+					this.showStatus('Please enter a valid URL!', 'error');
+					setTimeout(() => this.hideStatus(), 2000);
+					return;
+				}
+				
+				const title = titleInput.value.trim() || this.getTrackName(url);
+				
+				collection.tracks.push({
+					title: title,
+					url: url
+				});
+				
+				this.saveCustomCollections();
+				this.renderDrawers();
+				
+				this.showStatus(`Added "${title}" to collection!`, 'playing');
+				setTimeout(() => this.hideStatus(), 2000);
+			});
+			
+			cancelBtn.addEventListener('click', () => {
+				trackForm.style.display = 'none';
+				toggleBtn.textContent = '➕ Add Track to Collection';
+				urlInput.value = '';
+				titleInput.value = '';
+			});
+			
+			content.appendChild(addTrackSection);
+		}
+		
+		drawer.appendChild(header);
+		drawer.appendChild(content);
+		this.drawersContainer.appendChild(drawer);
+		
+		// Setup toggle
+		header.addEventListener('click', (e) => {
+			// Don't toggle if clicking on action buttons
+			if (e.target.closest('.drawer-delete-btn') || 
+			    e.target.closest('.drawer-add-all-btn') ||
+			    e.target.closest('.drawer-actions')) {
+				return;
+			}
+			header.classList.toggle('active');
+			content.classList.toggle('open');
+		});
+	}
+	
+	addTrackFromDrawer(url, title) {
+		this.tracks.push({ title, url });
+		this.renderPlaylist();
+		this.saveToStorage();
+		
+		if (this.tracks.length === 1) {
+			this.loadTrack(0);
+		}
+		
+		this.showStatus(`Added "${title}" to playlist!`, 'playing');
 		setTimeout(() => this.hideStatus(), 2000);
+	}
+	
+	toggleCollectionForm() {
+		if (this.newCollectionForm.style.display === 'none') {
+			this.newCollectionForm.style.display = 'block';
+			this.createDrawerBtn.textContent = '✖️ Cancel';
+			this.newCollectionName.focus();
+		} else {
+			this.hideCollectionForm();
+		}
+	}
+	
+	hideCollectionForm() {
+		this.newCollectionForm.style.display = 'none';
+		this.createDrawerBtn.textContent = '➕ Create Custom Collection';
+		this.newCollectionName.value = '';
+		this.newCollectionDescription.value = '';
+	}
+	
+	saveNewCollection() {
+		const title = this.newCollectionName.value.trim();
+		
+		if (!title) {
+			this.showStatus('Please enter a collection name!', 'error');
+			setTimeout(() => this.hideStatus(), 2000);
+			return;
+		}
+		
+		const description = this.newCollectionDescription.value.trim();
+		
+		const id = 'custom_' + Date.now();
+		const newCollection = {
+			id: id,
+			title: title,
+			description: description,
+			tracks: []
+		};
+		
+		this.customCollections.push(newCollection);
+		this.saveCustomCollections();
+		this.renderDrawers();
+		this.hideCollectionForm();
+		
+		this.showStatus(`Created collection "${title}"!`, 'playing');
+		setTimeout(() => this.hideStatus(), 2000);
+	}
+	
+	deleteTrackFromDrawer(collectionId, trackIndex) {
+		const collection = this.customCollections.find(c => c.id === collectionId);
+		if (!collection) return;
+		
+		const deletedTrack = collection.tracks[trackIndex];
+		
+		collection.tracks.splice(trackIndex, 1);
+		
+		this.saveCustomCollections();
+		this.renderDrawers();
+		
+		this.showStatus(`Deleted "${deletedTrack.title}" from collection!`, 'playing');
+		setTimeout(() => this.hideStatus(), 2000);
+	}
+	
+	deleteDrawer(collectionId) {
+		const collection = this.customCollections.find(c => c.id === collectionId);
+		if (!collection) return;
+		
+		this.customCollections = this.customCollections.filter(c => c.id !== collectionId);
+		this.saveCustomCollections();
+		this.renderDrawers();
+		
+		this.showStatus(`Deleted collection "${collection.title}"!`, 'playing');
+		setTimeout(() => this.hideStatus(), 2000);
+	}
+	
+	saveCustomCollections() {
+		try {
+			localStorage.setItem('customCollections', JSON.stringify(this.customCollections));
+		} catch (error) {
+			console.error('Error saving custom collections:', error);
+			this.showStatus('Error saving custom collections!', 'error');
+			setTimeout(() => this.hideStatus(), 3000);
+		}
 	}
 	
 	addTrack() {
 		const url = this.urlInput.value.trim();
-		if (!url) return;
 		
-		// More lenient URL validation for audio content
-		if (!this.isValidUrl(url)) {
-			this.showStatus('Please enter a valid URL', 'error');
+		if (!url) {
+			this.showStatus('Please enter an audio URL!', 'error');
+			setTimeout(() => this.hideStatus(), 2000);
 			return;
 		}
 		
-		this.tracks.push(url);
+		if (!this.isValidUrl(url)) {
+			this.showStatus('Please enter a valid URL!', 'error');
+			setTimeout(() => this.hideStatus(), 2000);
+			return;
+		}
+		
+		// Get title from filename automatically
+		const title = this.getTrackName(url);
+		
+		this.tracks.push({ title, url });
 		this.urlInput.value = '';
 		this.renderPlaylist();
 		this.saveToStorage();
@@ -106,120 +536,95 @@ class PlaylistPlayer {
 			this.loadTrack(0);
 		}
 		
-		this.showStatus('Track added! Testing playback...', 'playing');
-	}
-	
-	isValidUrl(url) {
-		try {
-			new URL(url);
-			return true;
-		} catch {
-			return false;
-		}
-	}
-	
-	// Keep the old function but make it less restrictive
-	isValidAudioUrl(url) {
-		try {
-			const urlObj = new URL(url);
-			const audioExtensions = ['.mp3', '.wav', '.ogg', '.m4a', '.aac', '.flac', '.webm'];
-			const hasAudioExt = audioExtensions.some(ext => 
-				urlObj.pathname.toLowerCase().includes(ext)
-			);
-			// Accept URLs with audio extensions or common audio-related terms
-			return hasAudioExt || 
-				   url.toLowerCase().includes('audio') || 
-				   url.toLowerCase().includes('music') ||
-				   url.toLowerCase().includes('sound') ||
-				   url.toLowerCase().includes('track') ||
-				   url.toLowerCase().includes('podcast');
-		} catch {
-			return false;
-		}
+		this.showStatus(`Added track "${title}"!`, 'playing');
+		setTimeout(() => this.hideStatus(), 2000);
 	}
 	
 	removeTrack(index) {
-		if (index === this.currentIndex && this.isPlaying) {
-			this.audioPlayer.pause();
-		}
+		const removedTrack = this.tracks[index];
 		
 		this.tracks.splice(index, 1);
 		
-		if (index < this.currentIndex) {
+		if (this.currentIndex === index) {
+			this.audioPlayer.pause();
+			this.audioPlayer.src = '';
+			this.shouldAutoPlay = false;
+			
+			if (this.tracks.length > 0) {
+				if (this.currentIndex >= this.tracks.length) {
+					this.currentIndex = 0;
+				}
+				this.loadTrack(this.currentIndex);
+			} else {
+				this.currentIndex = 0;
+				this.currentTitle.textContent = 'No track selected';
+				this.currentNumber.textContent = '';
+			}
+		} else if (this.currentIndex > index) {
 			this.currentIndex--;
-		} else if (index === this.currentIndex && this.currentIndex >= this.tracks.length) {
-			this.currentIndex = 0;
 		}
 		
 		this.renderPlaylist();
 		this.saveToStorage();
 		
-		if (this.tracks.length === 0) {
-			this.audioPlayer.src = '';
-			this.currentTitle.textContent = 'No track selected';
-			this.currentNumber.textContent = '';
-		} else {
-			this.loadTrack(this.currentIndex);
-		}
+		this.showStatus(`Removed "${removedTrack.title}"!`, 'playing');
+		setTimeout(() => this.hideStatus(), 2000);
 	}
 	
-	loadTrack(index, forceAutoPlay = false) {
+	loadTrack(index) {
 		if (index < 0 || index >= this.tracks.length) return;
 		
 		this.currentIndex = index;
-		this.audioPlayer.src = this.tracks[index];
-		
-		const trackName = this.getTrackName(this.tracks[index]);
-		this.currentTitle.textContent = trackName;
+		const track = this.tracks[index];
+		this.audioPlayer.src = track.url;
+		this.currentTitle.textContent = track.title;
 		this.currentNumber.textContent = `Track ${index + 1} of ${this.tracks.length}`;
 		
 		this.renderPlaylist();
 		
-		// Auto-play if we should be playing or if forced
-		if (this.shouldAutoPlay || forceAutoPlay) {
-			// Use multiple attempts to ensure playback starts
-			const attemptPlay = () => {
-				this.audioPlayer.play().then(() => {
-					console.log('Auto-play successful');
-				}).catch(e => {
-					console.log('Auto-play failed, retrying...', e);
-					// Retry after a short delay
-					setTimeout(attemptPlay, 100);
-				});
-			};
-			
-			// Try immediately and also after load
-			attemptPlay();
-			this.audioPlayer.addEventListener('canplay', attemptPlay, { once: true });
+		if (this.shouldAutoPlay) {
+			this.audioPlayer.play().catch(err => {
+				console.error('Autoplay prevented:', err);
+				this.showStatus('Click play to start audio', 'playing');
+				setTimeout(() => this.hideStatus(), 3000);
+			});
 		}
+		
+		this.saveToStorage();
+	}
+	
+	nextTrack() {
+		if (this.tracks.length === 0) return;
+		
+		this.currentIndex = (this.currentIndex + 1) % this.tracks.length;
+		this.loadTrack(this.currentIndex);
+	}
+	
+	previousTrack() {
+		if (this.tracks.length === 0) return;
+		
+		this.currentIndex = (this.currentIndex - 1 + this.tracks.length) % this.tracks.length;
+		this.loadTrack(this.currentIndex);
 	}
 	
 	getTrackName(url) {
 		try {
 			const urlObj = new URL(url);
 			const pathname = urlObj.pathname;
-			const filename = pathname.split('/').pop();
-			return filename || `Track from ${urlObj.hostname}`;
-		} catch {
+			const filename = pathname.split('/').pop() || 'Unknown Track';
+			return decodeURIComponent(filename).replace(/\.[^/.]+$/, '');
+		} catch (e) {
 			return 'Unknown Track';
 		}
 	}
 	
-	previousTrack() {
-		if (this.tracks.length === 0) return;
-		
-		const newIndex = this.currentIndex - 1 < 0 
-			? this.tracks.length - 1 
-			: this.currentIndex - 1;
-		
-		this.loadTrack(newIndex);
-	}
-	
-	nextTrack() {
-		if (this.tracks.length === 0) return;
-		
-		const newIndex = (this.currentIndex + 1) % this.tracks.length;
-		this.loadTrack(newIndex);
+	isValidUrl(string) {
+		try {
+			new URL(string);
+			return true;
+		} catch (_) {
+			return false;
+		}
 	}
 	
 	toggleAutoShuffle() {
@@ -228,7 +633,7 @@ class PlaylistPlayer {
 		if (this.autoShuffleEnabled) {
 			this.autoShuffleBtn.textContent = '🔄 Auto-Shuffle: ON';
 			this.autoShuffleBtn.className = 'auto-shuffle-on';
-			this.showStatus('Auto-shuffle enabled! Playlist will shuffle after last track', 'playing');
+			this.showStatus('Auto-shuffle enabled! Playlist will shuffle after last track.', 'playing');
 		} else {
 			this.autoShuffleBtn.textContent = '🔄 Auto-Shuffle: OFF';
 			this.autoShuffleBtn.className = 'auto-shuffle-off';
@@ -239,32 +644,45 @@ class PlaylistPlayer {
 		this.saveToStorage();
 	}
 	
-	togglePlayPause() {
-		if (this.tracks.length === 0) {
-			this.showStatus('Add some tracks first!', 'error');
-			return;
+	toggleLoop() {
+		this.loopEnabled = !this.loopEnabled;
+		
+		if (this.loopEnabled) {
+			this.loopBtn.textContent = '🔁 Loop: ON';
+			this.loopBtn.className = 'loop-on';
+			this.showStatus('Loop enabled! Playlist will restart after last track.', 'playing');
+		} else {
+			this.loopBtn.textContent = '🔁 Loop: OFF';
+			this.loopBtn.className = 'loop-off';
+			this.showStatus('Loop disabled! Playlist will stop after last track.', 'playing');
 		}
 		
-		if (this.audioPlayer.paused) {
-			this.shouldAutoPlay = true; // User wants to play
-			this.audioPlayer.play().catch(e => this.handleAudioError(e));
+		setTimeout(() => this.hideStatus(), 2000);
+		this.saveToStorage();
+	}
+	
+	toggleDarkMode() {
+		document.body.classList.toggle('dark-mode');
+		
+		if (document.body.classList.contains('dark-mode')) {
+			this.darkModeBtn.textContent = '☀️';
 		} else {
-			this.shouldAutoPlay = false; // User wants to pause
-			this.audioPlayer.pause();
+			this.darkModeBtn.textContent = '🌙';
 		}
+		
+		this.saveToStorage();
 	}
 	
 	updatePlayPauseButton(playing) {
-		this.isPlaying = playing;
-		// Note: This function references playPauseBtn which doesn't exist in HTML
-		// You may want to add this button or remove this function
-		if (this.playPauseBtn) {
-			this.playPauseBtn.textContent = playing ? '⏸ Pause' : '▶ Play';
-		}
+		// This could be expanded if you add a play/pause button
 	}
 	
 	shufflePlaylist() {
-		if (this.tracks.length < 2) return;
+		if (this.tracks.length < 2) {
+			this.showStatus('Need at least 2 tracks to shuffle!', 'error');
+			setTimeout(() => this.hideStatus(), 2000);
+			return;
+		}
 		
 		const currentTrack = this.tracks[this.currentIndex];
 		
@@ -273,10 +691,10 @@ class PlaylistPlayer {
 			[this.tracks[i], this.tracks[j]] = [this.tracks[j], this.tracks[i]];
 		}
 		
-		this.currentIndex = this.tracks.indexOf(currentTrack);
+		this.currentIndex = this.tracks.findIndex(t => t.url === currentTrack.url);
+		
 		this.renderPlaylist();
 		this.saveToStorage();
-		
 		this.showStatus('Playlist shuffled!', 'playing');
 		setTimeout(() => this.hideStatus(), 2000);
 	}
@@ -288,21 +706,13 @@ class PlaylistPlayer {
 			return;
 		}
 		
-		// Ask for confirmation
-		if (!confirm('Are you sure you want to clear all tracks from the playlist?')) {
-			return;
-		}
-		
-		// Stop and clear audio
 		this.audioPlayer.pause();
 		this.audioPlayer.src = '';
 		this.shouldAutoPlay = false;
 		
-		// Clear playlist data
 		this.tracks = [];
 		this.currentIndex = 0;
 		
-		// Update UI
 		this.currentTitle.textContent = 'No track selected';
 		this.currentNumber.textContent = '';
 		this.renderPlaylist();
@@ -319,15 +729,14 @@ class PlaylistPlayer {
 			return;
 		}
 		
-		// Create playlist data with each URL on a new line
-		const playlistData = this.tracks.join('\n');
+		// Export as JSON with titles
+		const playlistData = JSON.stringify(this.tracks, null, 2);
 		
-		// Create and download file
-		const blob = new Blob([playlistData], { type: 'text/plain' });
+		const blob = new Blob([playlistData], { type: 'application/json' });
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement('a');
 		a.href = url;
-		a.download = `audio-playlist-${new Date().toISOString().split('T')[0]}.txt`;
+		a.download = `audio-playlist-${new Date().toISOString().split('T')[0]}.json`;
 		a.style.display = 'none';
 		document.body.appendChild(a);
 		a.click();
@@ -342,32 +751,56 @@ class PlaylistPlayer {
 		const file = event.target.files[0];
 		if (!file) return;
 		
-		// Check file type
-		if (!file.name.toLowerCase().endsWith('.txt')) {
-			this.showStatus('Please select a .txt file!', 'error');
-			setTimeout(() => this.hideStatus(), 3000);
-			return;
-		}
-		
 		const reader = new FileReader();
 		reader.onload = (e) => {
 			try {
 				const content = e.target.result;
-				const urls = content.split('\n')
-					.map(line => line.trim())
-					.filter(line => line && this.isValidUrl(line));
+				let importedTracks = [];
 				
-				if (urls.length === 0) {
-					this.showStatus('No valid URLs found in file!', 'error');
+				// Try parsing as JSON first (new format)
+				if (file.name.toLowerCase().endsWith('.json')) {
+					try {
+						const parsed = JSON.parse(content);
+						if (Array.isArray(parsed)) {
+							importedTracks = parsed.map(track => {
+								if (typeof track === 'string') {
+									return { title: this.getTrackName(track), url: track };
+								} else if (track.url) {
+									return {
+										title: track.title || this.getTrackName(track.url),
+										url: track.url
+									};
+								}
+								return null;
+							}).filter(t => t && this.isValidUrl(t.url));
+						}
+					} catch (jsonError) {
+						console.error('JSON parse error:', jsonError);
+					}
+				} 
+				
+				// Fall back to plain text format (old format)
+				if (importedTracks.length === 0) {
+					const urls = content.split('\n')
+						.map(line => line.trim())
+						.filter(line => line && this.isValidUrl(line));
+					
+					importedTracks = urls.map(url => ({
+						title: this.getTrackName(url),
+						url: url
+					}));
+				}
+				
+				if (importedTracks.length === 0) {
+					this.showStatus('No valid tracks found in file!', 'error');
 					setTimeout(() => this.hideStatus(), 3000);
 					return;
 				}
 				
-				// Ask user if they want to replace or append (if there are existing tracks)
 				let shouldReplace = true;
 				if (this.tracks.length > 0) {
 					shouldReplace = confirm(
-						`Found ${urls.length} valid URLs in the file.\n\n` +
+						`Found ${importedTracks.length} valid tracks in the file.\n\n` +
 						`Current playlist has ${this.tracks.length} tracks.\n\n` +
 						`Click OK to REPLACE current playlist\n` +
 						`Click Cancel to ADD to current playlist`
@@ -375,7 +808,6 @@ class PlaylistPlayer {
 				}
 				
 				if (shouldReplace) {
-					// Stop current playback and clear playlist
 					this.audioPlayer.pause();
 					this.audioPlayer.src = '';
 					this.shouldAutoPlay = false;
@@ -383,11 +815,9 @@ class PlaylistPlayer {
 					this.currentIndex = 0;
 				}
 				
-				// Add new tracks
 				const startIndex = this.tracks.length;
-				this.tracks.push(...urls);
+				this.tracks.push(...importedTracks);
 				
-				// Load first track if playlist was empty
 				if (startIndex === 0 && this.tracks.length > 0) {
 					this.loadTrack(0);
 				}
@@ -396,7 +826,7 @@ class PlaylistPlayer {
 				this.saveToStorage();
 				
 				const action = shouldReplace ? 'Imported' : 'Added';
-				this.showStatus(`${action} ${urls.length} tracks successfully!`, 'playing');
+				this.showStatus(`${action} ${importedTracks.length} tracks successfully!`, 'playing');
 				setTimeout(() => this.hideStatus(), 3000);
 				
 			} catch (error) {
@@ -412,8 +842,6 @@ class PlaylistPlayer {
 		};
 		
 		reader.readAsText(file);
-		
-		// Reset file input so the same file can be selected again if needed
 		event.target.value = '';
 	}
 	
@@ -431,8 +859,8 @@ class PlaylistPlayer {
 			<div class="track-item ${index === this.currentIndex ? 'current' : ''}" 
 				 onclick="player.loadTrack(${index})">
 				<div class="track-info">
-					<div>Track ${index + 1}: ${this.getTrackName(track)}</div>
-					<div class="track-url">${track}</div>
+					<div class="track-title-display">${track.title}</div>
+					<div class="track-url">${track.url}</div>
 				</div>
 				<button class="remove-btn" onclick="event.stopPropagation(); player.removeTrack(${index})">
 					Remove
@@ -469,7 +897,6 @@ class PlaylistPlayer {
 		
 		this.showStatus(errorMessage, 'error');
 		
-		// Try to play next track after a short delay
 		setTimeout(() => {
 			if (this.tracks.length > 1) {
 				this.nextTrack();
@@ -493,6 +920,7 @@ class PlaylistPlayer {
 				tracks: this.tracks,
 				currentIndex: this.currentIndex,
 				autoShuffleEnabled: this.autoShuffleEnabled,
+				loopEnabled: this.loopEnabled,
 				darkMode: document.body.classList.contains('dark-mode')
 			};
 			localStorage.setItem('audioPlaylistPlayer', JSON.stringify(data));
@@ -506,23 +934,46 @@ class PlaylistPlayer {
 			const data = localStorage.getItem('audioPlaylistPlayer');
 			if (data) {
 				const parsed = JSON.parse(data);
-				this.tracks = parsed.tracks || [];
+				
+				// Migrate old format (array of strings) to new format (array of objects)
+				if (parsed.tracks && Array.isArray(parsed.tracks)) {
+					this.tracks = parsed.tracks.map(track => {
+						if (typeof track === 'string') {
+							return { title: this.getTrackName(track), url: track };
+						} else {
+							return {
+								title: track.title || this.getTrackName(track.url),
+								url: track.url
+							};
+						}
+					});
+				} else {
+					this.tracks = [];
+				}
+				
 				this.currentIndex = parsed.currentIndex || 0;
 				this.autoShuffleEnabled = parsed.autoShuffleEnabled || false;
+				// Load loopEnabled state, default to true if not set
+				this.loopEnabled = parsed.loopEnabled !== undefined ? parsed.loopEnabled : true;
 				
-				// Apply dark mode
 				if (parsed.darkMode) {
 					document.body.classList.add('dark-mode');
 					this.darkModeBtn.textContent = '☀️';
 				}
 				
-				// Update auto-shuffle button
 				if (this.autoShuffleEnabled) {
 					this.autoShuffleBtn.textContent = '🔄 Auto-Shuffle: ON';
 					this.autoShuffleBtn.className = 'auto-shuffle-on';
 				}
 				
-				// Render playlist and load current track
+				if (this.loopEnabled) {
+					this.loopBtn.textContent = '🔁 Loop: ON';
+					this.loopBtn.className = 'loop-on';
+				} else {
+					this.loopBtn.textContent = '🔁 Loop: OFF';
+					this.loopBtn.className = 'loop-off';
+				}
+				
 				this.renderPlaylist();
 				if (this.tracks.length > 0 && this.currentIndex < this.tracks.length) {
 					this.loadTrack(this.currentIndex);
@@ -531,6 +982,105 @@ class PlaylistPlayer {
 		} catch (error) {
 			console.error('Error loading from storage:', error);
 		}
+	}
+	
+	addAllTracksFromDrawer(collectionId) {
+		// Find the collection
+		let collection = this.collections.find(c => c.id === collectionId);
+		if (!collection) {
+			collection = this.customCollections.find(c => c.id === collectionId);
+		}
+		
+		if (!collection || !collection.tracks || collection.tracks.length === 0) {
+			this.showStatus('Collection not found or has no tracks!', 'error');
+			setTimeout(() => this.hideStatus(), 3000);
+			return;
+		}
+		
+		// Add all tracks from the collection to the current playlist
+		const tracksToAdd = collection.tracks.map(track => ({
+			title: track.title,
+			url: track.url
+		}));
+		
+		const startIndex = this.tracks.length;
+		this.tracks.push(...tracksToAdd);
+		
+		// If playlist was empty, load the first track
+		if (startIndex === 0 && this.tracks.length > 0) {
+			this.loadTrack(0);
+		}
+		
+		this.renderPlaylist();
+		this.saveToStorage();
+		
+		this.showStatus(`Added ${tracksToAdd.length} tracks from "${collection.title}" to playlist!`, 'playing');
+		setTimeout(() => this.hideStatus(), 3000);
+	}
+	
+	savePlaylistAsDrawer() {
+		// Check if playlist has tracks
+		if (this.tracks.length === 0) {
+			this.showStatus('Playlist is empty! Add some tracks first.', 'error');
+			setTimeout(() => this.hideStatus(), 3000);
+			return;
+		}
+		
+		// Show the form
+		this.saveCollectionForm.style.display = 'block';
+		this.saveCollectionName.value = '';
+		this.saveCollectionDescription.value = '';
+		this.saveCollectionName.focus();
+	}
+	
+	hideSaveCollectionForm() {
+		this.saveCollectionForm.style.display = 'none';
+		this.saveCollectionName.value = '';
+		this.saveCollectionDescription.value = '';
+	}
+	
+	confirmSavePlaylistAsDrawer() {
+		const collectionName = this.saveCollectionName.value.trim();
+		const collectionDescription = this.saveCollectionDescription.value.trim();
+		
+		if (!collectionName) {
+			this.showStatus('Please enter a collection name!', 'error');
+			setTimeout(() => this.hideStatus(), 3000);
+			return;
+		}
+		
+		// Create new custom collection
+		const newCollection = {
+			id: `custom_${Date.now()}`,
+			title: collectionName,
+			description: collectionDescription,
+			tracks: this.tracks.map(track => ({
+				title: track.title,
+				url: track.url
+			}))
+		};
+		
+		// Add to custom collections
+		this.customCollections.push(newCollection);
+		
+		// Save to localStorage
+		try {
+			localStorage.setItem('customCollections', JSON.stringify(this.customCollections));
+		} catch (error) {
+			console.error('Error saving custom collection:', error);
+			this.showStatus('Error saving collection!', 'error');
+			setTimeout(() => this.hideStatus(), 3000);
+			return;
+		}
+		
+		// Hide the form
+		this.hideSaveCollectionForm();
+		
+		// Re-render drawers to show the new collection
+		this.renderDrawers();
+		
+		this.showStatus(`Collection "${collectionName}" saved with ${this.tracks.length} tracks!`, 'playing');
+		setTimeout(() => this.hideStatus(), 3000);
 	}
 }
 

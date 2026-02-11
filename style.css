@@ -12,6 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     color: white;
+    padding: 20px 0;
 }
 
 .container {
@@ -148,11 +149,22 @@ body.light-mode .dark-mode-toggle:hover {
     box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1) !important;
 }
 
+.loop-on {
+    background: linear-gradient(45deg, #9B59B6, #8E44AD) !important;
+    box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3) !important;
+}
+
+.loop-off {
+    background: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1) !important;
+}
+
 .playlist-section {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 15px;
     padding: 25px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 25px;
 }
 
 .add-track {
@@ -226,6 +238,15 @@ input[type="url"]::placeholder {
     box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
 }
 
+.save-drawer-btn {
+    background: linear-gradient(45deg, #2196F3, #1976D2);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.save-drawer-btn:hover {
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
 .playlist {
     max-height: 300px;
     overflow-y: auto;
@@ -262,9 +283,15 @@ input[type="url"]::placeholder {
     min-width: 0;
 }
 
+.track-title-display {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
 .track-url {
-    font-size: 0.9em;
-    opacity: 0.8;
+    font-size: 0.85em;
+    opacity: 0.7;
     word-break: break-all;
     white-space: nowrap;
     overflow: hidden;
@@ -304,6 +331,297 @@ input[type="url"]::placeholder {
     border: 1px solid rgba(255, 193, 7, 0.5);
     color: #FFC107;
 }
+
+/* Drawers Section Styles */
+.drawers-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.drawers-title {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.drawer {
+    margin-bottom: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.drawer-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 20px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.drawer-header:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.drawer-icon {
+    font-size: 1.2em;
+    margin-right: 15px;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.drawer-header.active .drawer-icon {
+    transform: rotate(90deg);
+}
+
+.drawer-title {
+    flex: 1;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.drawer-count {
+    opacity: 0.7;
+    font-size: 0.9em;
+    margin-left: 10px;
+}
+
+.drawer-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+.drawer-add-all-btn {
+    padding: 6px 14px;
+    font-size: 0.8em;
+    background: linear-gradient(45deg, #4ECDC4, #44A08D);
+    box-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
+    white-space: nowrap;
+    border-radius: 20px;
+}
+
+.drawer-add-all-btn:hover {
+    box-shadow: 0 4px 12px rgba(78, 205, 196, 0.4);
+}
+
+.drawer-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.drawer-content.open {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.drawer-item {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 20px;
+    margin: 5px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.drawer-item:hover {
+    background: rgba(78, 205, 196, 0.2);
+    border-left-color: #4ECDC4;
+    transform: translateX(5px);
+}
+
+.drawer-item:active {
+    transform: translateX(3px);
+    background: rgba(78, 205, 196, 0.3);
+}
+
+.drawer-item-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.drawer-item-icon {
+    font-size: 1.3em;
+    margin-right: 12px;
+}
+
+.drawer-item-title {
+    flex: 1;
+    font-size: 0.95em;
+    font-weight: bold;
+}
+
+.drawer-item-delete-btn {
+    background: linear-gradient(45deg, #E74C3C, #C0392B);
+    padding: 4px 8px;
+    font-size: 0.75em;
+    border-radius: 4px;
+    opacity: 0.8;
+    margin-left: 8px;
+}
+
+.drawer-item-delete-btn:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.drawer-item-url {
+    font-size: 0.8em;
+    opacity: 0.7;
+    word-break: break-all;
+    margin-top: 4px;
+    font-family: monospace;
+}
+
+.drawer-actions {
+    display: flex;
+    gap: 5px;
+    margin-left: auto;
+}
+
+.drawer-delete-btn {
+    background: linear-gradient(45deg, #E74C3C, #C0392B);
+    padding: 4px 8px;
+    font-size: 0.75em;
+    border-radius: 4px;
+    opacity: 0.8;
+}
+
+.drawer-delete-btn:hover {
+    opacity: 1;
+}
+
+.drawer-add-track-btn {
+    background: linear-gradient(45deg, #4ECDC4, #44A08D);
+    padding: 6px 12px;
+    font-size: 0.8em;
+    border-radius: 15px;
+    margin: 10px;
+}
+
+.create-drawer-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.create-drawer-btn {
+    background: linear-gradient(45deg, #9B59B6, #8E44AD);
+    box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
+    padding: 12px 30px;
+    font-size: 1em;
+}
+
+.create-drawer-btn:hover {
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+}
+
+/* Scrollbar Styling */
+.drawer-content::-webkit-scrollbar,
+.playlist::-webkit-scrollbar {
+    width: 8px;
+}
+
+.drawer-content::-webkit-scrollbar-track,
+.playlist::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.drawer-content::-webkit-scrollbar-thumb,
+.playlist::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+.drawer-content::-webkit-scrollbar-thumb:hover,
+.playlist::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Inline Form Styles */
+.new-collection-form,
+.new-track-form {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1em;
+}
+
+.form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.form-btn {
+    padding: 10px 20px;
+    font-size: 0.9em;
+    border-radius: 8px;
+}
+
+.save-btn {
+    background: linear-gradient(45deg, #4ECDC4, #44A08D) !important;
+}
+
+.cancel-btn {
+    background: linear-gradient(45deg, #95a5a6, #7f8c8d) !important;
+}
+
+.add-track-section {
+    margin: 10px;
+}
+
+.drawer-add-track-toggle {
+    background: linear-gradient(45deg, #4ECDC4, #44A08D);
+    padding: 8px 16px;
+    font-size: 0.85em;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.new-track-form {
+    margin-top: 10px;
+}
+
+.track-url-input,
+.track-title-input {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -354,6 +672,22 @@ input[type="url"]::placeholder {
         padding: 8px 16px;
         font-size: 0.8em;
     }
+
+    .drawers-title {
+        font-size: 1.2em;
+    }
+
+    .drawer-header {
+        padding: 12px 15px;
+    }
+
+    .drawer-title {
+        font-size: 1em;
+    }
+
+    .drawer-item {
+        padding: 10px 15px;
+    }
 }
 
 /* Dark mode styles */
@@ -369,7 +703,8 @@ body.dark-mode .container {
 }
 
 body.dark-mode .player-section,
-body.dark-mode .playlist-section {
+body.dark-mode .playlist-section,
+body.dark-mode .drawers-section {
     background: rgba(15, 15, 15, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -431,28 +766,17 @@ body.dark-mode .dark-mode-toggle:hover {
     background: rgba(80, 80, 80, 0.9);
 }
 
-/* Dim the buttons in dark mode */
-body.dark-mode button:not(.dark-mode-toggle) {
-    opacity: 0.85;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-}
-
-body.dark-mode button:not(.dark-mode-toggle):hover {
-    opacity: 1;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-}
-
 /* Dark mode button styles */
 body.dark-mode button:not(.dark-mode-toggle) {
     background: linear-gradient(45deg, #3a3a3a, #2d2d2d);
-    opacity: 1; /* Remove the previous opacity rule */
+    opacity: 1;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.dark-mode button:not(.dark-mode-toggle):hover {
     background: linear-gradient(45deg, #4a4a4a, #3d3d3d);
-    opacity: 1; /* Remove the previous opacity rule */
+    opacity: 1;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8);
     transform: translateY(-2px);
 }
@@ -490,6 +814,22 @@ body.dark-mode .export-btn:hover {
     background: linear-gradient(45deg, #4a3a5a, #3a2d45) !important;
 }
 
+body.dark-mode .save-drawer-btn {
+    background: linear-gradient(45deg, #2d3a4a, #1f2735) !important;
+}
+
+body.dark-mode .save-drawer-btn:hover {
+    background: linear-gradient(45deg, #3a4a5a, #2d3545) !important;
+}
+
+body.dark-mode .drawer-add-all-btn {
+    background: linear-gradient(45deg, #2d4a47, #1f3530) !important;
+}
+
+body.dark-mode .drawer-add-all-btn:hover {
+    background: linear-gradient(45deg, #3a5a57, #2d4540) !important;
+}
+
 body.dark-mode .auto-shuffle-on {
     background: linear-gradient(45deg, #2d4a47, #1f3530) !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
@@ -500,7 +840,124 @@ body.dark-mode .auto-shuffle-off {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
 }
 
+body.dark-mode .loop-on {
+    background: linear-gradient(45deg, #3a2d4a, #2a1f35) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
+}
+
+body.dark-mode .loop-off {
+    background: rgba(60, 60, 60, 0.6) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+}
+
 body.dark-mode .remove-btn {
     background: linear-gradient(45deg, #4a2d2d, #351f1f);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Dark mode drawer styles */
+body.dark-mode .drawer {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .drawer-header {
+    background: rgba(30, 30, 30, 0.7);
+}
+
+body.dark-mode .drawer-header:hover {
+    background: rgba(40, 40, 40, 0.8);
+}
+
+body.dark-mode .drawer-content {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .drawer-item {
+    background: rgba(30, 30, 30, 0.6);
+}
+
+body.dark-mode .drawer-item:hover {
+    background: rgba(40, 80, 78, 0.5);
+    border-left-color: #66b3b0;
+}
+
+body.dark-mode .drawer-item:active {
+    background: rgba(40, 80, 78, 0.7);
+}
+
+body.dark-mode .drawer-item-url {
+    opacity: 0.6;
+}
+
+body.dark-mode .create-drawer-btn {
+    background: linear-gradient(45deg, #3a2d4a, #2a1f35) !important;
+}
+
+body.dark-mode .create-drawer-btn:hover {
+    background: linear-gradient(45deg, #4a3a5a, #3a2d45) !important;
+}
+
+body.dark-mode .drawer-add-track-btn {
+    background: linear-gradient(45deg, #2d4a47, #1f3530) !important;
+}
+
+body.dark-mode .drawer-add-track-btn:hover {
+    background: linear-gradient(45deg, #3a5a57, #2d4540) !important;
+}
+
+body.dark-mode .drawer-delete-btn {
+    background: linear-gradient(45deg, #4a2d2d, #351f1f) !important;
+}
+
+body.dark-mode .drawer-delete-btn:hover {
+    background: linear-gradient(45deg, #5a3a3a, #452d2d) !important;
+}
+
+body.dark-mode .drawer-item-delete-btn {
+    background: linear-gradient(45deg, #4a2d2d, #351f1f) !important;
+}
+
+body.dark-mode .drawer-item-delete-btn:hover {
+    background: linear-gradient(45deg, #5a3a3a, #452d2d) !important;
+}
+
+/* Dark mode form styles */
+body.dark-mode .new-collection-form,
+body.dark-mode .new-track-form {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .form-group input {
+    background: rgba(40, 40, 40, 0.9);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+body.dark-mode .save-btn {
+    background: linear-gradient(45deg, #2d4a47, #1f3530) !important;
+}
+
+body.dark-mode .save-btn:hover {
+    background: linear-gradient(45deg, #3a5a57, #2d4540) !important;
+}
+
+body.dark-mode .cancel-btn {
+    background: linear-gradient(45deg, #4a4a4a, #3a3a3a) !important;
+}
+
+body.dark-mode .cancel-btn:hover {
+    background: linear-gradient(45deg, #5a5a5a, #4a4a4a) !important;
+}
+
+body.dark-mode .drawer-add-track-toggle {
+    background: linear-gradient(45deg, #2d4a47, #1f3530) !important;
+}
+
+body.dark-mode .drawer-add-track-toggle:hover {
+    background: linear-gradient(45deg, #3a5a57, #2d4540) !important;
 }

@@ -22,14 +22,11 @@
             <audio id="audioPlayer" controls></audio>
             
             <div class="controls">
-                <button id="prevBtn">⏮ Previous</button>
-                <button id="nextBtn">Next ⏭</button>
+                <button id="prevBtn">⮜ Previous</button>
+                <button id="nextBtn">Next ⮞</button>
                 <button id="shuffleBtn">🔀 Shuffle Now</button>
                 <button id="autoShuffleBtn" class="auto-shuffle-off">🔄 Auto-Shuffle: OFF</button>
-            </div>
-            
-            <div class="status loop-indicator">
-                🔄 Continuous Loop Mode Active
+                <button id="loopBtn" class="loop-on">🔁 Loop: ON</button>
             </div>
             
             <div id="statusDisplay" class="status" style="display: none;"></div>
@@ -43,9 +40,24 @@
             
             <div class="playlist-controls">
                 <button class="control-btn clear-btn" id="clearBtn">🗑️ Clear All</button>
-                <button class="control-btn import-btn" id="importBtn">📁 Import Playlist</button>
+                <button class="control-btn import-btn" id="importBtn">📂 Import Playlist</button>
                 <button class="control-btn export-btn" id="exportBtn">💾 Export Playlist</button>
-                <input type="file" id="importFile" accept=".txt,.m3u,.pls" style="display: none;" />
+                <button class="control-btn save-drawer-btn" id="saveAsDrawerBtn">📚 Save as Collection</button>
+                <input type="file" id="importFile" accept=".txt,.m3u,.pls,.json" style="display: none;" />
+            </div>
+            
+            <!-- Inline form for saving playlist as collection -->
+            <div id="saveCollectionForm" class="new-collection-form" style="display: none;">
+                <div class="form-group">
+                    <input type="text" id="saveCollectionName" placeholder="Collection Name *" />
+                </div>
+                <div class="form-group">
+                    <input type="text" id="saveCollectionDescription" placeholder="Description (optional)" />
+                </div>
+                <div class="form-actions">
+                    <button class="form-btn save-btn" id="saveCollectionConfirmBtn">Save Collection</button>
+                    <button class="form-btn cancel-btn" id="saveCollectionCancelBtn">Cancel</button>
+                </div>
             </div>
             
             <div class="playlist" id="playlist">
@@ -54,8 +66,38 @@
                 </div>
             </div>
         </div>
+
+        <!-- Pre-stored Links Drawers -->
+        <div class="drawers-section">
+            <h2 class="drawers-title">📚 Pre-stored Audio Collections</h2>
+            
+            <div id="drawers-container">
+                <!-- Drawers will be loaded from database.js -->
+            </div>
+
+            <div class="create-drawer-section">
+                <button class="create-drawer-btn" id="createDrawerBtn">
+                    ➕ Create Custom Collection
+                </button>
+                
+                <!-- Inline form for creating new collection -->
+                <div id="newCollectionForm" class="new-collection-form" style="display: none;">
+                    <div class="form-group">
+                        <input type="text" id="newCollectionName" placeholder="Collection Name *" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="newCollectionDescription" placeholder="Description (optional)" />
+                    </div>
+                    <div class="form-actions">
+                        <button class="form-btn save-btn" id="saveCollectionBtn">Save Collection</button>
+                        <button class="form-btn cancel-btn" id="cancelCollectionBtn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <script src="database.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
