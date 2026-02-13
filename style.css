@@ -688,6 +688,29 @@ input[type="url"]::placeholder {
     .drawer-item {
         padding: 10px 15px;
     }
+    
+    /* Compress "Add All to Playlist" button to green + on mobile */
+    .drawer-add-all-btn {
+        padding: 0;
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        border-radius: 50%;
+        font-size: 1.5em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    
+    .drawer-add-all-btn-text {
+        display: none;
+    }
+    
+    .drawer-add-all-btn::before {
+        content: '+';
+        font-weight: bold;
+    }
 }
 
 /* Dark mode styles */

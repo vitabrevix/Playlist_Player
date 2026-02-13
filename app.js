@@ -262,7 +262,7 @@ class PlaylistPlayer {
 		// Add "Add All to Playlist" button for all drawers
 		const addAllBtn = document.createElement('button');
 		addAllBtn.className = 'drawer-add-all-btn';
-		addAllBtn.textContent = '➕ Add All to Playlist';
+		addAllBtn.innerHTML = '<span class="drawer-add-all-btn-text">➕ Add All to Playlist</span>';
 		addAllBtn.setAttribute('data-collection-id', collection.id);
 		actions.appendChild(addAllBtn);
 		
