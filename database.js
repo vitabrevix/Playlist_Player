@@ -11,11 +11,12 @@ const audioCollections = [
 			{ title: "GoddessSoft - Hypnosis Isn't Real, Right?", url: "https://media.soundgasm.net/sounds/cd9d55131274059d9ad5d2217a201b8d304ff4d2.m4a" },
 			{ title: "GoddessSoft - Good Puppy Clicker Training", url: "https://media.soundgasm.net/sounds/bff1ba118d1e75a8b67a4114f324438c6a0b3abe.m4a" },
 			{ title: "Miss_Praxis - Good_Pet_Clicker_Training", url: "https://media.soundgasm.net/sounds/e3901e5ff4793f6083c34ec4f16d945b1ea5ea1d.m4a" },
+			{ title: "Miss_Praxis - Pet_Fractionated_to_Pieces_S02E06", url: "https://media.soundgasm.net/sounds/ddf8ecd334c69e5d597e3fb545dc3af272045fb7.m4a" },
 
         ]
     ],
     [
-        "Who's a good pet?",
+        "Who's a good pet?🐶😸🐰🐮",
         "Come, sit, be a little mindless for me, will you dear?~",
         [
             { title: "misslofn - You're a Good Pet", url: "https://media.soundgasm.net/sounds/fb8c45728078ba140773b69783097295fec1afac.m4a" },
@@ -35,6 +36,12 @@ const audioCollections = [
             { title: "JustMocha - Simple Submission", url: "https://media.soundgasm.net/sounds/69e7b9b7262ac06b0b9d9835b69a8e1eacded2ba.m4a" },
             { title: "Miss Lilith - Collared Obedience", url: "https://lilithunleashed.net/wp-content/uploads/2021/08/Collared-Obedience-SFX-BB..mp3" },
             { title: "Miss_Praxis - 🐮Sinberry_Shake_S06E01", url: "https://media.soundgasm.net/sounds/2b352bc4839e42e9878df02b12531306aa97e483.m4a" },
+            { title: "MistressTess - 139 - Humping Induction", url: "https://media.soundgasm.net/sounds/78b77de62e27771d64520ebaaadb0eb8cd2ad990.m4a" },
+            { title: "Miss_Praxis - 🐶Assistant_Wanted_S04E07", url: "https://media.soundgasm.net/sounds/571bdb57cf117eac7c5ec55509b900412b7f67b5.m4a" },
+            { title: "Miss_Praxis - 🐶Puppy_Pilled_S04E06", url: "https://media.soundgasm.net/sounds/8a02cd25f8e357379cb4e296f4dc942c7936adf0.m4a" },
+            { title: "Miss_Praxis - 🐶Pet_Training_File_S04E12", url: "https://media.soundgasm.net/sounds/09cf0b1235de876dbfb8c9d461696677df754986.m4a" },
+            { title: "Miss_Praxis - 🐮Boxum_Bovian_Breeding_Basics_S04E17", url: "https://media.soundgasm.net/sounds/28a1ef48a5ac4cdc18919841385d39ecace2cf8c.m4a" },
+            { title: "Miss_Praxis - 🐶Lab_Grade_Head_Pats_S04E15", url: "https://media.soundgasm.net/sounds/4db40ce131f4e2fba143bdd86b4fa9b62ffe93a8.m4a" },
 		]
     ],
     [
@@ -46,7 +53,7 @@ const audioCollections = [
         ]
     ],
     [
-        "Just empty, just blank",
+        "Just empty, just blank🌀",
         "Mindless, thoughtless, unthinking, witless...~",
         [
             { title: "nocturnowlette - Straightforward (but Intense) Trance Training", url: "https://media.soundgasm.net/sounds/7bf06e8c1a421ee359a0cab5a7a04cca5c08241e.m4a" },
@@ -55,6 +62,7 @@ const audioCollections = [
 			{ title: "GoddessSoft - Slow and Gentle Hypnotic Induction", url: "https://media.soundgasm.net/sounds/0bfc1b3caa2a5a45e93dca9428ff8d981e9e69de.m4a" },
 			{ title: "Miss Lilith - Deep Conditioning – Induction", url: "https://lilithunleashed.net/wp-content/uploads/2021/08/Deep-Conditioning-Induction-Adapted-from-Commando.mp3" },
 			{ title: "Miss Lilith - Overload – Induction", url: "https://lilithunleashed.net/wp-content/uploads/2021/08/Venom-1-Induction.mp3" },
+			{ title: "Miss_Praxis - Brain_Drained_Head_Empty_S04E02", url: "https://media.soundgasm.net/sounds/2665fb2c20a087cba1afc14d610dc239f70107c8.m4a" },
         ]
     ],
 	[
@@ -91,6 +99,7 @@ const audioCollections = [
             { title: "Miss Lilith - Locked by a Bimbo", url: "https://lilithunleashed.net/wp-content/uploads/2024/06/Locked-by-a-Bimbo-MP3.mp3" },
             { title: "Shibbydex - Caged & Fucked into Submission", url: "https://shibbydex.com/play/99953221-3d2d-4ccf-8da9-1261303c6213" },
             { title: "Miss_Praxis - Edge_Case_S06E15", url: "https://media.soundgasm.net/sounds/222405ce612b2c49c9e824fd88f3d46e77233573.m4a" },
+            { title: "aphrodisiamystique - Mind Melt. Brainwashing.", url: "https://media.soundgasm.net/sounds/92c24f41bc828ecc2f3acf393f5c5d486b92da00.m4a" },
 			
         ]
     ],
@@ -107,6 +116,11 @@ const audioCollections = [
             { title: "Miss_Praxis - Dollification_Guaranteed_S06E04", url: "https://media.soundgasm.net/sounds/b45ac8c98f5f27138fb64be2a7bf2b1c99eb360b.m4a" },
             { title: "Miss_Praxis - My_Mindless_Machine_S5E21", url: "https://media.soundgasm.net/sounds/61ed939f76f743e3de652f706e371d3c77801073.m4a" },
             { title: "Miss_Praxis - Doll_Shackles_OS_S5E20", url: "https://media.soundgasm.net/sounds/2e212726d5b2b69dfc840ef1882316adb531c80c.m4a" },
+            { title: "Miss_Praxis - Black_Gloss_S04E09", url: "https://media.soundgasm.net/sounds/f4093d89b53940d8dce25714926a858577ddd63f.m4a" },
+            { title: "Miss_Praxis - Black_Gloss_S04E09", url: "https://media.soundgasm.net/sounds/f4093d89b53940d8dce25714926a858577ddd63f.m4a" },
+            { title: "Miss_Praxis - Compliance_Is_Pleasure_Drone_S03E20", url: "https://media.soundgasm.net/sounds/1b29c70773c57a4a5220dca499c8ffd42b98f34f.m4a" },
+            { title: "Miss_Praxis - Drone_Depot_Surplus_S1E24", url: "https://media.soundgasm.net/sounds/408df3a28455b7b7e9ee0792aa03faa26a6c7994.m4a" },
+            { title: "Miss_Praxis - Human_Thought_Detected_S04E14", url: "https://media.soundgasm.net/sounds/409ec0a4e144085a35d4f734b7399b8d64628414.m4a" },
         ]
     ],
 	[
@@ -114,6 +128,7 @@ const audioCollections = [
         "Yes, yes you are, and I will not take a no for an answer~",
         [
             { title: "Miss_Praxis - Good_Girl_S05E02", url: "https://media.soundgasm.net/sounds/c92270497313732537defbd7f357b20f528335eb.m4a" },
+            { title: "aphrodisiamystique - Good Girl", url: "https://media.soundgasm.net/sounds/4b3749bf32ca71b8033c9af0379325a9d6df9fdd.m4a" },
         ]
     ],
 	[
@@ -141,6 +156,11 @@ const audioCollections = [
 			{ title: "Miss_Praxis - Queen_to_Be_S5SE03", url: "https://media.soundgasm.net/sounds/98479775bd73ff1c7e7ef356a5534263bfbcce6b.m4a" },
 			{ title: "Miss_Praxis - Regulator_Transformation_S5E22", url: "https://media.soundgasm.net/sounds/8a6e3c23c1190f216c902141d46592d6cbe356e4.m4a" },
 			{ title: "Miss_Praxis - Lost_In_The_Eyes_Of_The_Lamia_S5E24", url: "https://media.soundgasm.net/sounds/f251e921272fc96432bcff3e960d2c32f2697cb4.m4a" },
+			{ title: "aphrodisiamystique - Try to resist me. The harder you try the deeper you fall", url: "https://media.soundgasm.net/sounds/cf2bfde24b1c424ea0580a85d04156d7d24ffaa6.m4a" },
+			{ title: "Miss_Praxis - Forced_Femme_Fucktoy_S02E22", url: "https://media.soundgasm.net/sounds/5149922a75ae39aed68571be569f04d082830858.m4a" },
+			{ title: "Miss_Praxis - Meltdown_S5E11", url: "https://media.soundgasm.net/sounds/b20685b5a8d065a67d6ec25990b45248eb1251cd.m4a" },
+			{ title: "Miss_Praxis - Alea_Iacta_Est_S05E06", url: "https://media.soundgasm.net/sounds/d8305c1834325fd5c0e6bc3d21171c4b0cef76a1.m4a" },
+			{ title: "Miss_Praxis - Her_Hoard_S05E03", url: "https://media.soundgasm.net/sounds/01d6f9f2311723235707b796f8f54744ea35d0f9.m4a" },
         ]
     ]
 ];
