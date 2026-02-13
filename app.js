@@ -14,8 +14,13 @@ class PlaylistPlayer {
 		
 		this.initializeElements();
 		this.setupEventListeners();
-		this.loadCollections();
+		this.initialize();
+	}
+	
+	async initialize() {
+		await this.loadCollections();
 		this.loadFromStorage();
+		this.handleUrlParameters();
 	}
 	
 	initializeElements() {
@@ -36,6 +41,8 @@ class PlaylistPlayer {
 		this.importFile = document.getElementById('importFile');
 		this.drawersContainer = document.getElementById('drawers-container');
 		this.createDrawerBtn = document.getElementById('createDrawerBtn');
+		this.subjectTypeFilter = document.getElementById('subjectTypeFilter');
+		this.hypnotistTypeFilter = document.getElementById('hypnotistTypeFilter');
 		
 		// Save collection form elements
 		this.saveCollectionForm = document.getElementById('saveCollectionForm');
@@ -86,6 +93,16 @@ class PlaylistPlayer {
 		this.createDrawerBtn.addEventListener('click', () => this.toggleCollectionForm());
 		this.saveCollectionBtn.addEventListener('click', () => this.saveNewCollection());
 		this.cancelCollectionBtn.addEventListener('click', () => this.hideCollectionForm());
+		
+		// Subject type filter listener
+		if (this.subjectTypeFilter) {
+			this.subjectTypeFilter.addEventListener('change', () => this.filterDrawersBySubjectType());
+		}
+		
+		// Hypnotist type filter listener
+		if (this.hypnotistTypeFilter) {
+			this.hypnotistTypeFilter.addEventListener('change', () => this.filterDrawersBySubjectType());
+		}
 		
 		// Save collection form listeners
 		if (this.saveCollectionConfirmBtn) {
@@ -190,7 +207,9 @@ class PlaylistPlayer {
 							} else {
 								return {
 									title: track.title || this.getTrackName(track.url),
-									url: track.url
+									url: track.url,
+									subjectType: track.subjectType, // Preserve subjectType
+									hypnotistType: track.hypnotistType // Preserve hypnotistType
 								};
 							}
 						})
@@ -226,6 +245,82 @@ class PlaylistPlayer {
 		// Render custom collections
 		this.customCollections.forEach(collection => {
 			this.renderDrawer(collection, true);
+		});
+		
+		// Apply current filter if set
+		this.filterDrawersBySubjectType();
+	}
+	
+	filterDrawersBySubjectType() {
+		if (!this.subjectTypeFilter || !this.hypnotistTypeFilter) return;
+		
+		const selectedSubjectType = this.subjectTypeFilter.value;
+		const selectedHypnotistType = this.hypnotistTypeFilter.value;
+		const allDrawers = this.drawersContainer.querySelectorAll('.drawer');
+		
+		allDrawers.forEach(drawer => {
+			const drawerId = drawer.dataset.drawerId;
+			
+			// Find the collection
+			let collection = this.collections.find(c => c.id === drawerId);
+			if (!collection) {
+				collection = this.customCollections.find(c => c.id === drawerId);
+			}
+			
+			if (!collection) return;
+			
+			// Get all drawer items in this collection
+			const drawerItems = drawer.querySelectorAll('.drawer-item');
+			let visibleCount = 0;
+			
+			drawerItems.forEach((item, index) => {
+				const track = collection.tracks[index];
+				
+				if (!track) return;
+				
+				// Check subject type filter
+				let subjectMatch = false;
+				if (selectedSubjectType === 'any') {
+					subjectMatch = true;
+				} else if (!track.subjectType) {
+					// Always show unmarked tracks
+					subjectMatch = true;
+				} else if (track.subjectType === selectedSubjectType) {
+					subjectMatch = true;
+				}
+				
+				// Check hypnotist type filter
+				let hypnotistMatch = false;
+				if (selectedHypnotistType === 'any') {
+					hypnotistMatch = true;
+				} else if (!track.hypnotistType) {
+					// Always show unmarked tracks
+					hypnotistMatch = true;
+				} else if (track.hypnotistType === selectedHypnotistType) {
+					hypnotistMatch = true;
+				}
+				
+				// Show track only if both filters match
+				if (subjectMatch && hypnotistMatch) {
+					item.style.display = '';
+					visibleCount++;
+				} else {
+					item.style.display = 'none';
+				}
+			});
+			
+			// Update the track count in the drawer header
+			const countElement = drawer.querySelector('.drawer-count');
+			if (countElement) {
+				countElement.textContent = `(${visibleCount} tracks)`;
+			}
+			
+			// Hide the entire drawer if no tracks are visible
+			if (visibleCount === 0) {
+				drawer.style.display = 'none';
+			} else {
+				drawer.style.display = '';
+			}
 		});
 	}
 	
@@ -1005,6 +1100,76 @@ class PlaylistPlayer {
 			}
 		} catch (error) {
 			console.error('Error loading from storage:', error);
+		}
+	}
+	
+	handleUrlParameters() {
+		try {
+			// Parse URL parameters
+			const urlParams = new URLSearchParams(window.location.search);
+			let shouldShuffle = false;
+			let loopMode = null;
+			
+			// Check for collection number parameters (1, 2, 3, etc.)
+			for (let [key, value] of urlParams.entries()) {
+				// Check if it's a number parameter
+				const collectionNumber = parseInt(key);
+				if (!isNaN(collectionNumber) && collectionNumber > 0) {
+					// Convert to 0-based index
+					const collectionIndex = collectionNumber - 1;
+					
+					// Check if collection exists
+					if (collectionIndex < this.collections.length) {
+						const collection = this.collections[collectionIndex];
+						const collectionId = collection.id;
+						
+						// Add all tracks from this collection
+						this.addAllTracksFromDrawer(collectionId);
+					}
+				}
+				
+				// Check for shuffle parameter
+				if (key.toLowerCase() === 'shuffle') {
+					shouldShuffle = true;
+				}
+				
+				// Check for loop parameter (loop=off, loop=current, loop=all)
+				if (key.toLowerCase() === 'loop') {
+					const loopValue = value.toLowerCase();
+					if (loopValue === 'off' || loopValue === 'current' || loopValue === 'all') {
+						loopMode = loopValue;
+					}
+				}
+			}
+			
+			// Set loop mode if requested
+			if (loopMode) {
+				if (loopMode === 'off') {
+					this.loopMode = 'off';
+					this.loopBtn.textContent = '🔁 Loop: OFF';
+					this.loopBtn.className = 'loop-off';
+				} else if (loopMode === 'current') {
+					this.loopMode = 'one';
+					this.loopBtn.textContent = '🔂 Loop: Current Track';
+					this.loopBtn.className = 'loop-one';
+				} else if (loopMode === 'all') {
+					this.loopMode = 'all';
+					this.loopBtn.textContent = '🔁 Loop: All Tracks';
+					this.loopBtn.className = 'loop-on';
+				}
+				this.saveToStorage();
+			}
+			
+			// Execute shuffle if requested (after adding collections)
+			if (shouldShuffle && this.tracks.length > 0) {
+				// Use setTimeout to ensure tracks are added first
+				setTimeout(() => {
+					this.shufflePlaylist();
+				}, 100);
+			}
+			
+		} catch (error) {
+			console.error('Error handling URL parameters:', error);
 		}
 	}
 	
