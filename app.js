@@ -1355,24 +1355,50 @@ class PlaylistPlayer {
 	
 	// Update share URL based on checkbox states
 	updateShareUrl() {
-		// Build binary representation of which tracks are in the playlist
-		let binaryString = '';
+		// First, check if playlist consists of complete collections
+		const collectionNumbers = this.detectCompleteCollections();
 		
-		// Go through all collections and their tracks
-		this.collections.forEach(collection => {
-			collection.tracks.forEach(track => {
-				// Check if this track is in the current playlist
-				const isInPlaylist = this.tracks.some(t => t.url === track.url);
-				binaryString += isInPlaylist ? '1' : '0';
-			});
-		});
-		
-		// Convert binary to alphabet encoding
-		const encoded = this.binaryToAlphabet(binaryString);
-		
-		// Build the share URL with parameters
+		let shareUrl;
 		const baseUrl = window.location.origin + window.location.pathname;
-		let shareUrl = `${baseUrl}?p=${encoded}`;
+		
+		if (collectionNumbers.length > 0 && this.isOnlyCompleteCollections(collectionNumbers)) {
+			// Use simplified ?1&2&3 format for complete collections
+			const params = collectionNumbers.map(num => num.toString()).join('&');
+			shareUrl = `${baseUrl}?${params}`;
+		} else {
+			// Use binary encoding with zeros for skipped collections
+			let binaryString = '';
+			
+			// Go through all collections and their tracks
+			this.collections.forEach((collection, collectionIndex) => {
+				// Check if this entire collection is in the playlist
+				const allTracksInPlaylist = collection.tracks.every(track => 
+					this.tracks.some(t => t.url === track.url)
+				);
+				
+				if (allTracksInPlaylist && collection.tracks.length > 0) {
+					// Replace this collection's bits with zeros (will be added as ?number)
+					binaryString += '0'.repeat(collection.tracks.length);
+				} else {
+					// Add individual track selections
+					collection.tracks.forEach(track => {
+						const isInPlaylist = this.tracks.some(t => t.url === track.url);
+						binaryString += isInPlaylist ? '1' : '0';
+					});
+				}
+			});
+			
+			// Convert binary to alphabet encoding
+			const encoded = this.binaryToAlphabet(binaryString);
+			
+			// Build URL with both p= and collection numbers
+			shareUrl = `${baseUrl}?p=${encoded}`;
+			
+			// Add collection numbers for complete collections
+			collectionNumbers.forEach(num => {
+				shareUrl += `&${num}`;
+			});
+		}
 		
 		// Add optional parameters based on checkboxes
 		if (this.shareShuffleCheck.checked) {
@@ -1387,6 +1413,41 @@ class PlaylistPlayer {
 		
 		// Update the input field
 		this.shareUrlInput.value = shareUrl;
+	}
+	
+	// Detect which collections are completely included in the playlist
+	detectCompleteCollections() {
+		const completeCollections = [];
+		
+		this.collections.forEach((collection, index) => {
+			if (collection.tracks.length === 0) return;
+			
+			// Check if ALL tracks from this collection are in the playlist
+			const allTracksPresent = collection.tracks.every(track =>
+				this.tracks.some(t => t.url === track.url)
+			);
+			
+			if (allTracksPresent) {
+				completeCollections.push(index + 1); // 1-based index for URL
+			}
+		});
+		
+		return completeCollections;
+	}
+	
+	// Check if playlist contains ONLY complete collections (no partial selections)
+	isOnlyCompleteCollections(collectionNumbers) {
+		// Calculate total tracks from complete collections
+		let totalTracksInCollections = 0;
+		collectionNumbers.forEach(num => {
+			const collection = this.collections[num - 1];
+			if (collection) {
+				totalTracksInCollections += collection.tracks.length;
+			}
+		});
+		
+		// Check if playlist has exactly these tracks (no more, no less)
+		return this.tracks.length === totalTracksInCollections;
 	}
 	
 	// Copy share URL to clipboard
