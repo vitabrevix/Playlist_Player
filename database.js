@@ -43,6 +43,8 @@ const audioCollections = [
             { title: "Miss_Praxis - 🐶Pet_Training_File_S04E12", url: "https://media.soundgasm.net/sounds/09cf0b1235de876dbfb8c9d461696677df754986.m4a", hypnotistType: "fem" },
             { title: "Miss_Praxis - 🐮Boxum_Bovian_Breeding_Basics_S04E17", url: "https://media.soundgasm.net/sounds/28a1ef48a5ac4cdc18919841385d39ecace2cf8c.m4a", hypnotistType: "fem" },
             { title: "Miss_Praxis - 🐶Lab_Grade_Head_Pats_S04E15", url: "https://media.soundgasm.net/sounds/4db40ce131f4e2fba143bdd86b4fa9b62ffe93a8.m4a", hypnotistType: "fem" },
+            { title: "Voxaroo - 🐶Adopt-A-Puppy ft. Ashdoge", url: "https://media.soundgasm.net/sounds/56708f740657d0106d3393473d66afb3abf320a8.m4a", hypnotistType: "masc" },
+            { title: "Voxaroo - 🐮Bovine Bliss", url: "https://media.soundgasm.net/sounds/c083c9dc4a4d36190206cbdbb0a560e519c3028b.m4a", hypnotistType: "masc" },
 		]
     ],
     [
@@ -95,6 +97,9 @@ const audioCollections = [
             { title: "TheSecretSubject - Brain Button Stimulation", url: "https://media.soundgasm.net/sounds/581702314ab529dc167b9f39207dda4671d893b5.m4a", hypnotistType: "fem" },
             { title: "TheSecretSubject - Goddess Controls Your Orgasm", url: "https://media.soundgasm.net/sounds/76b952680a4f77be3976b4401d66b867931a6f93.m4a", hypnotistType: "fem" },
             { title: "TheSecretSubject - My Sweet Submissive", url: "https://media.soundgasm.net/sounds/1bd34322f0b71678eacbbfc12314c1558a91d4e5.m4a", hypnotistType: "fem" },
+            { title: "TheSecretSubject - Orgasm On Command", url: "https://media.soundgasm.net/sounds/c6c1f4880d3c812f4bcbbaf2c9018b85cd4ddbf2.m4a", hypnotistType: "fem" },
+            { title: "TheSecretSubject - Conversational Domination and Mental HFO", url: "https://media.soundgasm.net/sounds/a7297e90f15f888356e415d52f611543b3628ea7.m4a", hypnotistType: "fem" },
+            { title: "TheSecretSubject - My Voice is INSIDE Your HEAD", url: "https://media.soundgasm.net/sounds/085330738980df8d78f431251a683b49f0c96eb7.m4a", hypnotistType: "fem" },
         ]
     ],
 	[
@@ -171,6 +176,9 @@ const audioCollections = [
 			{ title: "Miss_Praxis - Meltdown_S5E11", url: "https://media.soundgasm.net/sounds/b20685b5a8d065a67d6ec25990b45248eb1251cd.m4a", hypnotistType: "fem" },
 			{ title: "Miss_Praxis - Alea_Iacta_Est_S05E06", url: "https://media.soundgasm.net/sounds/d8305c1834325fd5c0e6bc3d21171c4b0cef76a1.m4a", hypnotistType: "fem" },
 			{ title: "Miss_Praxis - Her_Hoard_S05E03", url: "https://media.soundgasm.net/sounds/01d6f9f2311723235707b796f8f54744ea35d0f9.m4a", hypnotistType: "fem" },
+			{ title: "TheSecretSubject - Arousal Freeze", url: "https://media.soundgasm.net/sounds/3088de2d0700ad91ca62be1c26dd5a8dad048c85.m4a", hypnotistType: "fem" },
+			{ title: "Voxaroo - Big Words, Small Mind", url: "https://media.soundgasm.net/sounds/abd387ffc535534a10b1c3a3e729120042e25541.m4a", hypnotistType: "masc" },
+			{ title: "Voxaroo - Cockslut Brainwashing", url: "https://media.soundgasm.net/sounds/9d402995786a4c1d178a27873be99bcbfbef9c3c.m4a", hypnotistType: "masc" },
         ]
     ]
 ];

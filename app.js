@@ -38,6 +38,7 @@ class PlaylistPlayer {
 		this.importBtn = document.getElementById('importBtn');
 		this.exportBtn = document.getElementById('exportBtn');
 		this.saveAsDrawerBtn = document.getElementById('saveAsDrawerBtn');
+		this.shareBtn = document.getElementById('shareBtn');
 		this.importFile = document.getElementById('importFile');
 		this.drawersContainer = document.getElementById('drawers-container');
 		this.createDrawerBtn = document.getElementById('createDrawerBtn');
@@ -57,6 +58,15 @@ class PlaylistPlayer {
 		this.newCollectionDescription = document.getElementById('newCollectionDescription');
 		this.saveCollectionBtn = document.getElementById('saveCollectionBtn');
 		this.cancelCollectionBtn = document.getElementById('cancelCollectionBtn');
+		
+		// Share dialog elements
+		this.shareDialog = document.getElementById('shareDialog');
+		this.shareUrlInput = document.getElementById('shareUrlInput');
+		this.shareCopyBtn = document.getElementById('shareCopyBtn');
+		this.shareCloseBtn = document.getElementById('shareCloseBtn');
+		this.shareShuffleCheck = document.getElementById('shareShuffleCheck');
+		this.shareLoopCheck = document.getElementById('shareLoopCheck');
+		this.shareAutoShuffleCheck = document.getElementById('shareAutoShuffleCheck');
 	}
 	
 	setupEventListeners() {
@@ -86,6 +96,29 @@ class PlaylistPlayer {
 		
 		if (this.saveAsDrawerBtn) {
 			this.saveAsDrawerBtn.addEventListener('click', () => this.savePlaylistAsDrawer());
+		}
+		
+		if (this.shareBtn) {
+			this.shareBtn.addEventListener('click', () => this.showShareDialog());
+		}
+		
+		if (this.shareCopyBtn) {
+			this.shareCopyBtn.addEventListener('click', () => this.copyShareUrl());
+		}
+		
+		if (this.shareCloseBtn) {
+			this.shareCloseBtn.addEventListener('click', () => this.hideShareDialog());
+		}
+		
+		// Update share URL when checkboxes change
+		if (this.shareShuffleCheck) {
+			this.shareShuffleCheck.addEventListener('change', () => this.updateShareUrl());
+		}
+		if (this.shareLoopCheck) {
+			this.shareLoopCheck.addEventListener('change', () => this.updateShareUrl());
+		}
+		if (this.shareAutoShuffleCheck) {
+			this.shareAutoShuffleCheck.addEventListener('change', () => this.updateShareUrl());
 		}
 		
 		this.importFile.addEventListener('change', (e) => this.importPlaylist(e));
@@ -1109,9 +1142,17 @@ class PlaylistPlayer {
 			const urlParams = new URLSearchParams(window.location.search);
 			let shouldShuffle = false;
 			let loopMode = null;
+			let encodedPlaylist = null;
+			let autoShuffleOn = false;
 			
 			// Check for collection number parameters (1, 2, 3, etc.)
 			for (let [key, value] of urlParams.entries()) {
+				// Check for encoded playlist parameter
+				if (key.toLowerCase() === 'p') {
+					encodedPlaylist = value;
+					continue;
+				}
+				
 				// Check if it's a number parameter
 				const collectionNumber = parseInt(key);
 				if (!isNaN(collectionNumber) && collectionNumber > 0) {
@@ -1133,6 +1174,11 @@ class PlaylistPlayer {
 					shouldShuffle = true;
 				}
 				
+				// Check for autoshuffle parameter
+				if (key.toLowerCase() === 'autoshuffle') {
+					autoShuffleOn = true;
+				}
+				
 				// Check for loop parameter (loop=off, loop=current, loop=all)
 				if (key.toLowerCase() === 'loop') {
 					const loopValue = value.toLowerCase();
@@ -1140,6 +1186,47 @@ class PlaylistPlayer {
 						loopMode = loopValue;
 					}
 				}
+			}
+			
+			// Decode and add tracks from encoded playlist
+			if (encodedPlaylist) {
+				const binaryString = this.alphabetToBinary(encodedPlaylist);
+				let bitIndex = 0;
+				
+				// Go through all collections and their tracks
+				this.collections.forEach(collection => {
+					collection.tracks.forEach(track => {
+						if (bitIndex < binaryString.length) {
+							const shouldAdd = binaryString[bitIndex] === '1';
+							if (shouldAdd) {
+								// Add this specific track
+								const trackToAdd = {
+									title: track.title,
+									url: track.url,
+									subjectType: track.subjectType,
+									hypnotistType: track.hypnotistType
+								};
+								this.tracks.push(trackToAdd);
+							}
+							bitIndex++;
+						}
+					});
+				});
+				
+				// If tracks were added, update the UI
+				if (this.tracks.length > 0) {
+					this.renderPlaylist();
+					this.saveToStorage();
+					this.loadTrack(0);
+				}
+			}
+			
+			// Set auto-shuffle if requested
+			if (autoShuffleOn) {
+				this.autoShuffleEnabled = true;
+				this.autoShuffleBtn.textContent = '🔄 Auto-Shuffle: ON';
+				this.autoShuffleBtn.className = 'auto-shuffle-on';
+				this.saveToStorage();
 			}
 			
 			// Set loop mode if requested
@@ -1205,6 +1292,124 @@ class PlaylistPlayer {
 		
 		this.showStatus(`Added ${tracksToAdd.length} tracks from "${collection.title}" to playlist!`, 'playing');
 		setTimeout(() => this.hideStatus(), 3000);
+	}
+	
+	// Encode binary string to alphabet characters
+	binaryToAlphabet(binaryString) {
+		// Split binary into chunks of 5 bits (2^5 = 32, enough for a-z + a few extras)
+		const chunks = [];
+		for (let i = 0; i < binaryString.length; i += 5) {
+			chunks.push(binaryString.substr(i, 5));
+		}
+		
+		// Convert each 5-bit chunk to a letter (a-z = 0-25, then A-F for 26-31)
+		return chunks.map(chunk => {
+			const value = parseInt(chunk.padEnd(5, '0'), 2);
+			if (value < 26) {
+				return String.fromCharCode(97 + value); // a-z
+			} else {
+				return String.fromCharCode(65 + (value - 26)); // A-F for overflow
+			}
+		}).join('');
+	}
+	
+	// Decode alphabet characters to binary string
+	alphabetToBinary(alphabetString) {
+		return alphabetString.split('').map(char => {
+			let value;
+			if (char >= 'a' && char <= 'z') {
+				value = char.charCodeAt(0) - 97;
+			} else if (char >= 'A' && char <= 'F') {
+				value = char.charCodeAt(0) - 65 + 26;
+			} else {
+				return '00000'; // Invalid character, treat as 0
+			}
+			return value.toString(2).padStart(5, '0');
+		}).join('');
+	}
+	
+	// Show share dialog
+	showShareDialog() {
+		if (this.tracks.length === 0) {
+			this.showStatus('Playlist is empty! Add some tracks first.', 'error');
+			setTimeout(() => this.hideStatus(), 3000);
+			return;
+		}
+		
+		// Reset checkboxes
+		this.shareShuffleCheck.checked = false;
+		this.shareLoopCheck.checked = false;
+		this.shareAutoShuffleCheck.checked = false;
+		
+		// Generate and display the URL
+		this.updateShareUrl();
+		
+		// Show the dialog
+		this.shareDialog.style.display = 'block';
+	}
+	
+	// Hide share dialog
+	hideShareDialog() {
+		this.shareDialog.style.display = 'none';
+	}
+	
+	// Update share URL based on checkbox states
+	updateShareUrl() {
+		// Build binary representation of which tracks are in the playlist
+		let binaryString = '';
+		
+		// Go through all collections and their tracks
+		this.collections.forEach(collection => {
+			collection.tracks.forEach(track => {
+				// Check if this track is in the current playlist
+				const isInPlaylist = this.tracks.some(t => t.url === track.url);
+				binaryString += isInPlaylist ? '1' : '0';
+			});
+		});
+		
+		// Convert binary to alphabet encoding
+		const encoded = this.binaryToAlphabet(binaryString);
+		
+		// Build the share URL with parameters
+		const baseUrl = window.location.origin + window.location.pathname;
+		let shareUrl = `${baseUrl}?p=${encoded}`;
+		
+		// Add optional parameters based on checkboxes
+		if (this.shareShuffleCheck.checked) {
+			shareUrl += '&shuffle';
+		}
+		if (this.shareLoopCheck.checked) {
+			shareUrl += '&loop=all';
+		}
+		if (this.shareAutoShuffleCheck.checked) {
+			shareUrl += '&autoshuffle';
+		}
+		
+		// Update the input field
+		this.shareUrlInput.value = shareUrl;
+	}
+	
+	// Copy share URL to clipboard
+	copyShareUrl() {
+		const shareUrl = this.shareUrlInput.value;
+		
+		navigator.clipboard.writeText(shareUrl).then(() => {
+			this.showStatus(`Share link copied to clipboard! (${this.tracks.length} tracks)`, 'playing');
+			setTimeout(() => this.hideStatus(), 2000);
+			
+			// Change button text temporarily
+			const originalText = this.shareCopyBtn.textContent;
+			this.shareCopyBtn.textContent = '✓ Copied!';
+			setTimeout(() => {
+				this.shareCopyBtn.textContent = originalText;
+			}, 2000);
+		}).catch(err => {
+			// Select the text so user can copy manually
+			this.shareUrlInput.select();
+			this.shareUrlInput.setSelectionRange(0, 99999); // For mobile devices
+			this.showStatus('Unable to copy automatically. Text selected - press Ctrl+C', 'error');
+			setTimeout(() => this.hideStatus(), 3000);
+		});
 	}
 	
 	savePlaylistAsDrawer() {

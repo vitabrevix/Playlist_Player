@@ -43,7 +43,34 @@
                 <button class="control-btn import-btn" id="importBtn">📂 Import Playlist</button>
                 <button class="control-btn export-btn" id="exportBtn">💾 Export Playlist</button>
                 <button class="control-btn save-drawer-btn" id="saveAsDrawerBtn">📚 Save as Collection</button>
+                <button class="control-btn share-btn" id="shareBtn">🔗 Share</button>
                 <input type="file" id="importFile" accept=".txt,.m3u,.pls,.json" style="display: none;" />
+            </div>
+            
+            <!-- Share Dialog -->
+            <div id="shareDialog" class="share-dialog" style="display: none;">
+                <div class="share-dialog-content">
+                    <h3>Share Playlist</h3>
+                    <div class="share-options">
+                        <label class="share-checkbox-label">
+                            <input type="checkbox" id="shareShuffleCheck" class="share-checkbox">
+                            <span>Include Shuffle</span>
+                        </label>
+                        <label class="share-checkbox-label">
+                            <input type="checkbox" id="shareLoopCheck" class="share-checkbox">
+                            <span>Loop All Tracks</span>
+                        </label>
+                        <label class="share-checkbox-label">
+                            <input type="checkbox" id="shareAutoShuffleCheck" class="share-checkbox">
+                            <span>Auto-Shuffle On</span>
+                        </label>
+                    </div>
+                    <div class="share-url-container">
+                        <input type="text" id="shareUrlInput" class="share-url-input" readonly>
+                        <button class="share-copy-btn" id="shareCopyBtn">Copy</button>
+                    </div>
+                    <button class="share-close-btn" id="shareCloseBtn">Close</button>
+                </div>
             </div>
             
             <!-- Inline form for saving playlist as collection -->
