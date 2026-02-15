@@ -45,6 +45,8 @@ const audioCollections = [
             { title: "Miss_Praxis - 🐶Lab_Grade_Head_Pats_S04E15", url: "https://media.soundgasm.net/sounds/4db40ce131f4e2fba143bdd86b4fa9b62ffe93a8.m4a", hypnotistType: "fem" },
             { title: "Voxaroo - 🐶Adopt-A-Puppy ft. Ashdoge", url: "https://media.soundgasm.net/sounds/56708f740657d0106d3393473d66afb3abf320a8.m4a", hypnotistType: "masc" },
             { title: "Voxaroo - 🐮Bovine Bliss", url: "https://media.soundgasm.net/sounds/c083c9dc4a4d36190206cbdbb0a560e519c3028b.m4a", hypnotistType: "masc" },
+            { title: "YesNichole - 🐶Puppy Love", url: "https://media.soundgasm.net/sounds/f1f8dad08c941f42dc2d4f075bccf35214b4cff8.m4a", hypnotistType: "fem" },
+            { title: "YesNichole - 😸Become my pet kitty", url: "https://media.soundgasm.net/sounds/b14225cf6eb8b46f4918691828951e53a618427b.m4a", hypnotistType: "fem", subjectType: "fem" },
 		]
     ],
     [
@@ -68,6 +70,9 @@ const audioCollections = [
 			{ title: "Miss_Praxis - Brain_Drained_Head_Empty_S04E02", url: "https://media.soundgasm.net/sounds/2665fb2c20a087cba1afc14d610dc239f70107c8.m4a", hypnotistType: "fem" },
 			{ title: "TheSecretSubject - Magical Mind Fuckery", url: "https://media.soundgasm.net/sounds/b76b9ef5773e3f30434e37defb0dc4e1f5324306.m4a", hypnotistType: "fem" },
 			{ title: "TheSecretSubject - Tag You're It", url: "https://media.soundgasm.net/sounds/ccf3e2c362d51b2b6e8a1843fe05cf79db759634.m4a", hypnotistType: "fem" },
+			{ title: "TheHypnoCollective - Ultimate Depeener", url: "https://thehypnocollective.com/wp-content/uploads/2025/09/Ultimate-Deepener-All-Voices-Binaurals-192.mp3" },
+			{ title: "TheHypnoCollective - Ultimate Depeener F only", url: "https://thehypnocollective.com/wp-content/uploads/2025/09/Ultimate-Deepener-Fem-Voices-Binaurals.mp3", hypnotistType: "fem" },
+			{ title: "TheHypnoCollective - Ultimate Depeener M only", url: "https://thehypnocollective.com/wp-content/uploads/2025/09/Ultimate-Deepener-Male-Voices-Binaurals.mp3", hypnotistType: "masc" },
         ]
     ],
 	[
@@ -179,6 +184,7 @@ const audioCollections = [
 			{ title: "TheSecretSubject - Arousal Freeze", url: "https://media.soundgasm.net/sounds/3088de2d0700ad91ca62be1c26dd5a8dad048c85.m4a", hypnotistType: "fem" },
 			{ title: "Voxaroo - Big Words, Small Mind", url: "https://media.soundgasm.net/sounds/abd387ffc535534a10b1c3a3e729120042e25541.m4a", hypnotistType: "masc" },
 			{ title: "Voxaroo - Cockslut Brainwashing", url: "https://media.soundgasm.net/sounds/9d402995786a4c1d178a27873be99bcbfbef9c3c.m4a", hypnotistType: "masc" },
+			{ title: "Princess Kate & 9 more - Used And Passed Around", url: "https://thehypnocollective.com/wp-content/uploads/2026/02/Used-and-Passed-Around-denial.mp3" },
         ]
     ]
 ];
