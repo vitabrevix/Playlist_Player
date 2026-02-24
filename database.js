@@ -20,8 +20,8 @@ const audioCollections = [
         "Who's a good pet?🐶😸🐰🐮",
         "Come, sit, be a little mindless for me, will you dear?~",
         [
-			{ title: "VerityLey - The Pet Test ", url: "https://media.soundgasm.net/sounds/66579ed49c799fcfd26cea790f0f1b46d2b92408.m4a", hypnotistType: "fem" },
-            { title: "VerityLey - The Pet Test 2", url: "https://media.soundgasm.net/sounds/fbc022ed56a57480e85ddff228c780b4c58703db.m4a", hypnotistType: "fem" },
+			{ title: "VerityLey - 🐶The Pet Test ", url: "https://media.soundgasm.net/sounds/66579ed49c799fcfd26cea790f0f1b46d2b92408.m4a", hypnotistType: "fem" },
+            { title: "VerityLey - 🐶The Pet Test 2", url: "https://media.soundgasm.net/sounds/fbc022ed56a57480e85ddff228c780b4c58703db.m4a", hypnotistType: "fem" },
 			{ title: "misslofn - You're a Good Pet", url: "https://media.soundgasm.net/sounds/fb8c45728078ba140773b69783097295fec1afac.m4a", hypnotistType: "fem" },
             { title: "Voxaroo - 🐰Bunny Brainwashing", url: "https://media.soundgasm.net/sounds/50c748cca562c72375f96ee22bd82f78622956bf.m4a", hypnotistType: "masc" },
             { title: "GoddessSoft - 🐶Head Petting Deep Puppy Trance", url: "https://media.soundgasm.net/sounds/cc5a3eb1ccb337966d607580699cb3cf905b2bad.m4a", hypnotistType: "fem" },
@@ -62,6 +62,7 @@ const audioCollections = [
         "Mindless, thoughtless, unthinking, witless...~",
         [
             { title: "nocturnowlette - Straightforward (but Intense) Trance Training", url: "https://media.soundgasm.net/sounds/7bf06e8c1a421ee359a0cab5a7a04cca5c08241e.m4a" },
+            { title: "Shibbydex - Mine", url: "https://shibbydex.com/play/90876c78-3427-4f7c-832e-3ca7c9d37287", hypnotistType: "fem", subjectType: "masc" },
             { title: "Miss Lilith - Brain Go Bye Bye", url: "https://lilithunleashed.net/wp-content/uploads/2022/04/Bye-Bye-Brain-Long-Induction-Version-MP3.mp3", hypnotistType: "fem" },
 			{ title: "nocturnowlette - Melting Your Trance Inhibitions", url: "https://media.soundgasm.net/sounds/a7f7a965c32227bd246dd48a9834826531e1d9f6.m4a" },
 			{ title: "GoddessSoft - Slow and Gentle Hypnotic Induction", url: "https://media.soundgasm.net/sounds/0bfc1b3caa2a5a45e93dca9428ff8d981e9e69de.m4a", hypnotistType: "fem" },
@@ -168,6 +169,27 @@ const audioCollections = [
         "Yes, yes you are, and I will not take a no for an answer~",
         [
             { title: "aphrodisiamystique - Good Boy. Praise. Gentle Femdom", url: "https://media.soundgasm.net/sounds/d51880d94f43697dc08908f31490b9937fc46f93.m4a", subjectType: "masc", hypnotistType: "fem" },
+        ]
+    ],
+	[
+        "Bound and ready ⛓️",
+        "It feels good when you cannot move, doesnt it? At my mercy~",
+        [
+            { title: "Shibbydex - Bondage", url: "https://shibbydex.com/play/90876c47-24c1-4e23-8b2f-86d94eb75054", subjectType: "masc", hypnotistType: "fem" },
+        ]
+    ],
+	[
+        "Become Pink 🩷",
+        "What a feinine girl, so pretty and cute~",
+        [
+            { title: "MommySammys - One of the Girls", url: "https://media.soundgasm.net/sounds/a24862f7bfaf885aea9c05b45a2d4fe62d539eac.m4a", hypnotistType: "fem" },
+        ]
+    ],
+	[
+        "Become Blue 🩵",
+        "What a masculine boy, so handsome and cute~",
+        [
+            { title: "Sleep_Paralysis_Demoness - The cave - Bottom programming", url: "https://media.soundgasm.net/sounds/a68318a95a77e593533f843fda6570503a52d02d.m4a"},
         ]
     ],
     [

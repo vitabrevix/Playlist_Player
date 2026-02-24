@@ -68,6 +68,7 @@ class PlaylistPlayer {
 		this.shareLoopCheck = document.getElementById('shareLoopCheck');
 		this.shareAutoShuffleCheck = document.getElementById('shareAutoShuffleCheck');
 		this.shareClearCheck = document.getElementById('shareClearCheck');
+		this.shareCustomTracksCheck = document.getElementById('shareCustomTracksCheck');
 	}
 	
 	setupEventListeners() {
@@ -123,6 +124,9 @@ class PlaylistPlayer {
 		}
 		if (this.shareClearCheck) {
 			this.shareClearCheck.addEventListener('change', () => this.updateShareUrl());
+		}
+		if (this.shareCustomTracksCheck) {
+			this.shareCustomTracksCheck.addEventListener('change', () => this.updateShareUrl());
 		}
 		
 		this.importFile.addEventListener('change', (e) => this.importPlaylist(e));
@@ -1148,6 +1152,7 @@ class PlaylistPlayer {
 			let loopMode = null;
 			let encodedPlaylist = null;
 			let autoShuffleOn = false;
+			let hasCustomTracks = false;
 			
 			// Check for clear parameter (?clear=true clears playlist, ?clear=false or absent appends)
 			const clearParam = urlParams.get('clear');
@@ -1171,7 +1176,19 @@ class PlaylistPlayer {
 					continue;
 				}
 				
-				// Check if it's a number parameter
+				// Check for custom tracks parameter
+			if (key.toLowerCase() === 'custom') {
+				const customUrls = value.split('|').map(u => decodeURIComponent(u)).filter(u => u);
+				customUrls.forEach(url => {
+					if (this.isValidUrl(url) && !this.tracks.some(t => t.url === url)) {
+						this.tracks.push({ title: this.getTrackName(url), url: url });
+						hasCustomTracks = true;
+					}
+				});
+				continue;
+			}
+			
+			// Check if it's a number parameter
 				const collectionNumber = parseInt(key);
 				if (!isNaN(collectionNumber) && collectionNumber > 0) {
 					// Convert to 0-based index
@@ -1237,6 +1254,13 @@ class PlaylistPlayer {
 					this.saveToStorage();
 					this.loadTrack(0);
 				}
+			}
+			
+			// If custom tracks were added but no encodedPlaylist block handled the render, do it now
+			if (hasCustomTracks && !encodedPlaylist && this.tracks.length > 0) {
+				this.renderPlaylist();
+				this.saveToStorage();
+				this.loadTrack(0);
 			}
 			
 			// Set auto-shuffle if requested
@@ -1359,6 +1383,7 @@ class PlaylistPlayer {
 		this.shareLoopCheck.checked = false;
 		this.shareAutoShuffleCheck.checked = false;
 		this.shareClearCheck.checked = false;
+		this.shareCustomTracksCheck.checked = true; // Default: include custom tracks
 		
 		// Generate and display the URL
 		this.updateShareUrl();
@@ -1431,6 +1456,20 @@ class PlaylistPlayer {
 		}
 		if (this.shareClearCheck.checked) {
 			shareUrl += '&clear=true';
+		}
+		
+		// Add custom (non-collection) tracks if checkbox is checked
+		if (this.shareCustomTracksCheck && this.shareCustomTracksCheck.checked) {
+			const allCollectionUrls = new Set();
+			this.collections.forEach(collection => {
+				collection.tracks.forEach(track => allCollectionUrls.add(track.url));
+			});
+			
+			const customTracks = this.tracks.filter(track => !allCollectionUrls.has(track.url));
+			if (customTracks.length > 0) {
+				const encodedCustom = customTracks.map(t => encodeURIComponent(t.url)).join('|');
+				shareUrl += '&custom=' + encodedCustom;
+			}
 		}
 		
 		// Update the input field
