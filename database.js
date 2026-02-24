@@ -49,6 +49,8 @@ const audioCollections = [
             { title: "YesNichole - 😸Become my pet kitty", url: "https://media.soundgasm.net/sounds/b14225cf6eb8b46f4918691828951e53a618427b.m4a", hypnotistType: "fem", subjectType: "fem" },
             { title: "MommySammys - 🐶Kafka Makes You Her Locked up Pet", url: "https://media.soundgasm.net/sounds/9806eae5f9d100ec6a675666a6830e19ae1d47e3.m4a", hypnotistType: "fem" },
             { title: "MommySammys - 🐶Pillow Humping Puppy", url: "https://media.soundgasm.net/sounds/ce57564b99056e80ec2a832cfd9c4b0e90bcda12.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - 😸Kitty Conversion", url: "https://media.soundgasm.net/sounds/e1b8e4e90390c07325d6470b5491d7ae8199d5e5.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - 🐶Puppy conversion", url: "https://media.soundgasm.net/sounds/a970d0eb4329ff36a2b84b153e01e31537e08db2.m4a", hypnotistType: "fem" },
 		]
     ],
     [
@@ -65,6 +67,7 @@ const audioCollections = [
         [
             { title: "nocturnowlette - Straightforward (but Intense) Trance Training", url: "https://media.soundgasm.net/sounds/7bf06e8c1a421ee359a0cab5a7a04cca5c08241e.m4a" },
             { title: "Shibbydex - Mine", url: "https://shibbydex.com/play/90876c78-3427-4f7c-832e-3ca7c9d37287", hypnotistType: "fem", subjectType: "masc" },
+            { title: "MommySammys - Drop", url: "https://media.soundgasm.net/sounds/a2fa5fef9855b0c19f188b686d867fffb71063d0.m4a", hypnotistType: "fem" },
             { title: "Miss Lilith - Brain Go Bye Bye", url: "https://lilithunleashed.net/wp-content/uploads/2022/04/Bye-Bye-Brain-Long-Induction-Version-MP3.mp3", hypnotistType: "fem" },
 			{ title: "nocturnowlette - Melting Your Trance Inhibitions", url: "https://media.soundgasm.net/sounds/a7f7a965c32227bd246dd48a9834826531e1d9f6.m4a" },
 			{ title: "GoddessSoft - Slow and Gentle Hypnotic Induction", url: "https://media.soundgasm.net/sounds/0bfc1b3caa2a5a45e93dca9428ff8d981e9e69de.m4a", hypnotistType: "fem" },
@@ -77,6 +80,7 @@ const audioCollections = [
 			{ title: "TheHypnoCollective - Ultimate Depeener F only", url: "https://thehypnocollective.com/wp-content/uploads/2025/09/Ultimate-Deepener-Fem-Voices-Binaurals.mp3", hypnotistType: "fem" },
 			{ title: "TheHypnoCollective - Ultimate Depeener M only", url: "https://thehypnocollective.com/wp-content/uploads/2025/09/Ultimate-Deepener-Male-Voices-Binaurals.mp3", hypnotistType: "masc" },
 			{ title: "MommySammys - Delirium", url: "https://media.soundgasm.net/sounds/edf773a73d5aad3a1f4814f66a3ebc3f67d81232.m4a", hypnotistType: "fem" },
+			{ title: "MommySammys - Hypnoception", url: "https://media.soundgasm.net/sounds/ab072d55740a71d0079e00a4b8358579fe078e86.m4a", hypnotistType: "fem" },
         ]
     ],
 	[
@@ -84,6 +88,8 @@ const audioCollections = [
         "Tasty fun~",
         [
             { title: "JustMocha - Pleasure for Playthings", url: "https://media.soundgasm.net/sounds/5933dc168ea782d2a0f696ff0b005f9dcc5f1fc2.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - Lust", url: "https://media.soundgasm.net/sounds/3353ed7f69de4064ed566dfee624d352a8df7509.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - Hands-Free Orgasm", url: "https://media.soundgasm.net/sounds/d517780f2b3bc902f6903c768ab86cf366d0987d.m4a", hypnotistType: "fem" },
             { title: "JustMocha - Pleasure for Playthings HFO", url: "https://media.soundgasm.net/sounds/e5e267099b50366837b02c30380f661ce651fffd.m4a", hypnotistType: "fem" },
             { title: "JustMocha - Just Pleasure For the Villainess", url: "https://media.soundgasm.net/sounds/b8fae2de63163771bf2a465179f279425ebf64af.m4a", hypnotistType: "fem" },
             { title: "JustMocha - Your Orgasmic Resolution", url: "https://media.soundgasm.net/sounds/fe2c5b53679be0fdb8ec0467237d5ace034c8c86.m4a", hypnotistType: "fem" },
@@ -114,6 +120,10 @@ const audioCollections = [
             { title: "MommySammys - Even Quicker", url: "https://media.soundgasm.net/sounds/aaa8d65155cc6831f074d4f71c0a8601e7a83649.m4a", hypnotistType: "fem" },
             { title: "MommySammys - Stay Hard", url: "https://media.soundgasm.net/sounds/25865078baaf61df9d4d46e99d9429730c5f7fa4.m4a", hypnotistType: "fem" },
             { title: "MommySammys - The Orgasm Button", url: "https://media.soundgasm.net/sounds/68ce935f551a9c0a5031b8c1cf9a497021e73f1e.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - Stamina Help", url: "https://media.soundgasm.net/sounds/201a0b7f90c220edaedc30fe57efb670439e8deb.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - Phantasmic Orgasm", url: "https://media.soundgasm.net/sounds/2c8755e6a74da5702e22ee816129e9c98e421288.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - Mommy's Toy", url: "https://media.soundgasm.net/sounds/4cadf810cb556504f4701585f540dff2d8a885ea.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - Moan Trigger", url: "https://media.soundgasm.net/sounds/a938f7aa04a9d304a8dbfa3015c4fa353ab4a779.m4a", hypnotistType: "fem" },
         ]
     ],
 	[
@@ -129,11 +139,14 @@ const audioCollections = [
             { title: "Miss_Praxis - Edge_Case_S06E15", url: "https://media.soundgasm.net/sounds/222405ce612b2c49c9e824fd88f3d46e77233573.m4a", hypnotistType: "fem" },
             { title: "aphrodisiamystique - Mind Melt. Brainwashing.", url: "https://media.soundgasm.net/sounds/92c24f41bc828ecc2f3acf393f5c5d486b92da00.m4a", hypnotistType: "fem" },
             { title: "MommySammys - Just One Week", url: "https://media.soundgasm.net/sounds/a082b2ef70880f18f0b5db709af8f3065ca9c883.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - Edge Loop", url: "https://media.soundgasm.net/sounds/8d9732ac0514344bfaedea329ae8983855884755.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - Try To Resist", url: "https://media.soundgasm.net/sounds/c8455dc71e60b5b1cfce2ac20f523a698d4a6dc9.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - Mental Chastity", url: "https://media.soundgasm.net/sounds/a30ff4eb09756b48afc0aa425e3b0f7b901297c2.m4a", hypnotistType: "fem" },
 			
         ]
     ],
 	[
-        "Machine heart and machine mind",
+        "Machine heart and machine mind 🤖",
         "Only a shell meant to follow commands~",
         [
             { title: "GoddessSoft - Optimizing your Mind for Maximized Performance", url: "https://media.soundgasm.net/sounds/eb6ecb3da456d9f1a5875fd705c2ed3b7d486a56.m4a", hypnotistType: "fem" },
@@ -143,7 +156,9 @@ const audioCollections = [
             { title: "Mistress Calia - Drone Mode Part 4: Erasure", url: "https://media.soundgasm.net/sounds/b69c042ba69e8eb266903f5ddacfa29d135cde1d.m4a", hypnotistType: "fem" },
             { title: "Mistress Calia - Drone Mode Part 5: Corruption", url: "https://media.soundgasm.net/sounds/4f56efb98f1a73be7f148122e76d12bbdf8801d6.m4a", hypnotistType: "fem" },
             { title: "Shibbydex - Mind Space", url: "https://shibbydex.com/play/9396b7cd-666f-4390-a7f9-12bc8dac618e", hypnotistType: "fem" },
+            { title: "MommySammys - Drone Installation Chip ", url: "https://media.soundgasm.net/sounds/fadf5c3da9aa0cd3751a864e3539bee181b09198.m4a", hypnotistType: "fem" },
             { title: "MommySammys - Sammys System Hotline (C)", url: "https://media.soundgasm.net/sounds/a45464e3f6ddd97209c831557d893fa577365858.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - Drone Update 2.0 ", url: "https://media.soundgasm.net/sounds/a0a4cd107ec65e02b785b1d46b741a32ddb4465a.m4a", hypnotistType: "fem" },
             { title: "Dollcorporation - 01 - INDUCTION", url: "https://api.dollcorporation.com/public/modules/698f970a174d41984d7c41ce.mp3", hypnotistType: "fem" },
             { title: "Dollcorporation - 02 - COMPLIANCE", url: "https://api.dollcorporation.com/public/modules/698f974b174d41984d7c41cf.mp3", hypnotistType: "fem" },
             { title: "Dollcorporation - 03 - HAPPINESS", url: "https://api.dollcorporation.com/public/modules/698f977b174d41984d7c41d0.mp3", hypnotistType: "fem" },
@@ -193,6 +208,8 @@ const audioCollections = [
         "What a feminine girl, so pretty and cute~",
         [
             { title: "MommySammys - One of the Girls", url: "https://media.soundgasm.net/sounds/a24862f7bfaf885aea9c05b45a2d4fe62d539eac.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - Good Girls Swallow", url: "https://media.soundgasm.net/sounds/f873cc1fdcc8e6033e26ad4669a0e478d4e88d42.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - Feminization", url: "https://media.soundgasm.net/sounds/09134a96776a9df525b3b252bc947cfda39566ac.m4a", hypnotistType: "fem" },
         ]
     ],
 	[
@@ -211,6 +228,7 @@ const audioCollections = [
 			{ title: "MommySammys - Drift Off to Sleep", url: "https://media.soundgasm.net/sounds/e5da2e5af6fc132d8a96bd40846fa3a9e1c86fd0.m4a", hypnotistType: "fem" },
 			{ title: "nocturnowlette - Sleep Orb", url: "https://media.soundgasm.net/sounds/9d91e74d3614f04b7b2d9d8c1b1c9ac6a1ba2f9e.m4a" },
 			{ title: "MommySammys - Anti-Anxiety Trigger", url: "https://media.soundgasm.net/sounds/836b0aaeb68b7a106a2b1d2e019b23b100bd3012.m4a", hypnotistType: "fem" },
+			{ title: "MommySammys - Deprogramming", url: "https://media.soundgasm.net/sounds/fd692bd72d6b608a79c570a0a3b534b1f523b95a.m4a", hypnotistType: "fem" },
         ]
     ],
     [
@@ -238,6 +256,10 @@ const audioCollections = [
 			{ title: "Voxaroo - Cockslut Brainwashing", url: "https://media.soundgasm.net/sounds/9d402995786a4c1d178a27873be99bcbfbef9c3c.m4a", hypnotistType: "masc" },
 			{ title: "Princess Kate & 9 more - Used And Passed Around", url: "https://thehypnocollective.com/wp-content/uploads/2026/02/Used-and-Passed-Around-denial.mp3" },
 			{ title: "MommySammys - Savor Yourself", url: "https://media.soundgasm.net/sounds/ba85d0d858175b4ba556670a8be836c0628bf748.m4a", hypnotistType: "fem" },
+			{ title: "MommySammys - My Wish is Your Command", url: "https://media.soundgasm.net/sounds/61c5a92598194220c04a4ad5e16b78eba83c4160.m4a", hypnotistType: "fem" },
+			{ title: "MommySammys - Small Penis Humiliation", url: "https://media.soundgasm.net/sounds/fcad7653e7c4bdd9a4b02efcb7e387cb8530890d.m4a", hypnotistType: "fem" },
+			{ title: "MommySammys - Armpit Fetish Curse", url: "https://media.soundgasm.net/sounds/51d773a2128124355ada16973c1e48501bdd4ad4.m4a", hypnotistType: "fem" },
+			{ title: "MommySammys - Foot Fetish Curse", url: "https://media.soundgasm.net/sounds/4e1b6a1fd9b21590cbd618ca60014aca562dbe36.m4a", hypnotistType: "fem" },
         ]
     ]
 ];
