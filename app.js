@@ -67,6 +67,7 @@ class PlaylistPlayer {
 		this.shareShuffleCheck = document.getElementById('shareShuffleCheck');
 		this.shareLoopCheck = document.getElementById('shareLoopCheck');
 		this.shareAutoShuffleCheck = document.getElementById('shareAutoShuffleCheck');
+		this.shareClearCheck = document.getElementById('shareClearCheck');
 	}
 	
 	setupEventListeners() {
@@ -119,6 +120,9 @@ class PlaylistPlayer {
 		}
 		if (this.shareAutoShuffleCheck) {
 			this.shareAutoShuffleCheck.addEventListener('change', () => this.updateShareUrl());
+		}
+		if (this.shareClearCheck) {
+			this.shareClearCheck.addEventListener('change', () => this.updateShareUrl());
 		}
 		
 		this.importFile.addEventListener('change', (e) => this.importPlaylist(e));
@@ -1145,6 +1149,20 @@ class PlaylistPlayer {
 			let encodedPlaylist = null;
 			let autoShuffleOn = false;
 			
+			// Check for clear parameter (?clear=true clears playlist, ?clear=false or absent appends)
+			const clearParam = urlParams.get('clear');
+			const shouldClear = clearParam !== null && clearParam.toLowerCase() === 'true';
+			
+			// If clear=true, wipe the current playlist before loading URL tracks
+			if (shouldClear) {
+				this.tracks = [];
+				this.currentIndex = 0;
+				this.audioPlayer.pause();
+				this.audioPlayer.src = '';
+				this.renderPlaylist();
+				this.saveToStorage();
+			}
+			
 			// Check for collection number parameters (1, 2, 3, etc.)
 			for (let [key, value] of urlParams.entries()) {
 				// Check for encoded playlist parameter
@@ -1340,6 +1358,7 @@ class PlaylistPlayer {
 		this.shareShuffleCheck.checked = false;
 		this.shareLoopCheck.checked = false;
 		this.shareAutoShuffleCheck.checked = false;
+		this.shareClearCheck.checked = false;
 		
 		// Generate and display the URL
 		this.updateShareUrl();
@@ -1409,6 +1428,9 @@ class PlaylistPlayer {
 		}
 		if (this.shareAutoShuffleCheck.checked) {
 			shareUrl += '&autoshuffle';
+		}
+		if (this.shareClearCheck.checked) {
+			shareUrl += '&clear=true';
 		}
 		
 		// Update the input field
