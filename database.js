@@ -207,6 +207,7 @@ const audioCollections = [
         "Become Pink 🩷",
         "What a feminine girl, so pretty and cute~",
         [
+            { title: "Dolly_Dreaming - Umm..., Erotic Hypnosis & Bimbofication", url: "https://media.soundgasm.net/sounds/6c548e0c4b13f49befe33d5ca664af082050b955.m4a", hypnotistType: "fem" },
             { title: "MommySammys - One of the Girls", url: "https://media.soundgasm.net/sounds/a24862f7bfaf885aea9c05b45a2d4fe62d539eac.m4a", hypnotistType: "fem" },
             { title: "MommySammys - Good Girls Swallow", url: "https://media.soundgasm.net/sounds/f873cc1fdcc8e6033e26ad4669a0e478d4e88d42.m4a", hypnotistType: "fem" },
             { title: "MommySammys - Feminization", url: "https://media.soundgasm.net/sounds/09134a96776a9df525b3b252bc947cfda39566ac.m4a", hypnotistType: "fem" },
@@ -229,6 +230,7 @@ const audioCollections = [
 			{ title: "nocturnowlette - Sleep Orb", url: "https://media.soundgasm.net/sounds/9d91e74d3614f04b7b2d9d8c1b1c9ac6a1ba2f9e.m4a" },
 			{ title: "MommySammys - Anti-Anxiety Trigger", url: "https://media.soundgasm.net/sounds/836b0aaeb68b7a106a2b1d2e019b23b100bd3012.m4a", hypnotistType: "fem" },
 			{ title: "MommySammys - Deprogramming", url: "https://media.soundgasm.net/sounds/fd692bd72d6b608a79c570a0a3b534b1f523b95a.m4a", hypnotistType: "fem" },
+			{ title: "Miss Lilith - Kinky Workout", url: "https://lilithunleashed.net/wp-content/uploads/2023/04/Kinky-Workout-Submission-MP3.mp3", hypnotistType: "fem" },
         ]
     ],
     [
@@ -241,7 +243,6 @@ const audioCollections = [
             { title: "WilliamMastersNarrates - Good Girls Practice Orgasm Control", url: "https://media.soundgasm.net/sounds/3143dec101ecdde28aab521bfc9278237f5207e8.m4a", hypnotistType: "masc" },
             { title: "WilliamMastersNarrates - Hypno for More Sensitive Nipples", url: "https://media.soundgasm.net/sounds/d492b35b9891ef6fdbd5f69d008267a5e1d9a501.m4a", hypnotistType: "masc" },
 			{ title: "Shibbydex - Domina's Outlet", url: "https://shibbydex.com/play/970d65b2-e5a5-4ef2-88b5-90365ea53cc1", hypnotistType: "fem" },
-			{ title: "Miss Lilith - Kinky Workout", url: "https://lilithunleashed.net/wp-content/uploads/2023/04/Kinky-Workout-Submission-MP3.mp3", hypnotistType: "fem" },
 			{ title: "Gingerbreadpigge - Wellness Retreat", url: "https://media.soundgasm.net/sounds/e75241424774a5d301aad28147354fba78bf67c8.m4a", hypnotistType: "fem" },
 			{ title: "Miss_Praxis - Queen_to_Be_S5SE03", url: "https://media.soundgasm.net/sounds/98479775bd73ff1c7e7ef356a5534263bfbcce6b.m4a", hypnotistType: "fem" },
 			{ title: "Miss_Praxis - Regulator_Transformation_S5E22", url: "https://media.soundgasm.net/sounds/8a6e3c23c1190f216c902141d46592d6cbe356e4.m4a", hypnotistType: "fem" },
