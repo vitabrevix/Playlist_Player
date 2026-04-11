@@ -207,7 +207,6 @@ const audioCollections = [
         "Become Pink 🩷",
         "What a feminine girl, so pretty and cute~",
         [
-            { title: "Dolly_Dreaming - Umm..., Erotic Hypnosis & Bimbofication", url: "https://media.soundgasm.net/sounds/6c548e0c4b13f49befe33d5ca664af082050b955.m4a", hypnotistType: "fem" },
             { title: "MommySammys - One of the Girls", url: "https://media.soundgasm.net/sounds/a24862f7bfaf885aea9c05b45a2d4fe62d539eac.m4a", hypnotistType: "fem" },
             { title: "MommySammys - Good Girls Swallow", url: "https://media.soundgasm.net/sounds/f873cc1fdcc8e6033e26ad4669a0e478d4e88d42.m4a", hypnotistType: "fem" },
             { title: "MommySammys - Feminization", url: "https://media.soundgasm.net/sounds/09134a96776a9df525b3b252bc947cfda39566ac.m4a", hypnotistType: "fem" },
@@ -219,6 +218,17 @@ const audioCollections = [
         [
             { title: "Sleep_Paralysis_Demoness - The cave - Bottom programming", url: "https://media.soundgasm.net/sounds/a68318a95a77e593533f843fda6570503a52d02d.m4a"},
             { title: "Sleep_Paralysis_Demoness - Break down to build up", url: "https://media.soundgasm.net/sounds/03e41e4d25277e85016b2628c38d354d2e909aee.m4a"},
+        ]
+    ],
+    [
+        "Dumb and plastic 🧠",
+        "What a dumb, pretty, plastic toy~",
+        [
+            { title: "Dolly_Dreaming - Umm..., Erotic Hypnosis & Bimbofication", url: "https://media.soundgasm.net/sounds/6c548e0c4b13f49befe33d5ca664af082050b955.m4a", hypnotistType: "fem" },
+            { title: "bimbobipolar - Bimbos Dumb Cum", url: "https://media.soundgasm.net/sounds/d477e8ce00f5938f1b7dfce1e8149e72f82452c7.m4a"},
+            { title: "LilithUnleashed - Good Bimbo Toy", url: "https://media.soundgasm.net/sounds/cd49664cafdbc0abe9f673ae2929e0beb9cdc1c9.m4a"},
+            { title: "Dyst0pia - Bimbo Mantras", url: "https://media.soundgasm.net/sounds/59258c1b478b1cc34694145c63773ddb834b10de.m4a"},
+            { title: "m0mmyl0vesy0u - Bimbo Brainwashing Loop", url: "https://media.soundgasm.net/sounds/0cebdb7af24fe0c7e98802e46c02e9524f32e6c7.m4a"},
         ]
     ],
 	[
