@@ -51,6 +51,7 @@ const audioCollections = [
             { title: "MommySammys - 🐶Pillow Humping Puppy", url: "https://media.soundgasm.net/sounds/ce57564b99056e80ec2a832cfd9c4b0e90bcda12.m4a", hypnotistType: "fem" },
             { title: "MommySammys - 😸Kitty Conversion", url: "https://media.soundgasm.net/sounds/e1b8e4e90390c07325d6470b5491d7ae8199d5e5.m4a", hypnotistType: "fem" },
             { title: "MommySammys - 🐶Puppy conversion", url: "https://media.soundgasm.net/sounds/a970d0eb4329ff36a2b84b153e01e31537e08db2.m4a", hypnotistType: "fem" },
+            { title: "badslimegirl - 🐶[pet].transform ", url: "https://media.soundgasm.net/sounds/6626f63799beba344b8fcc49d25b0cd09840f738.m4a", hypnotistType: "fem" },
 		]
     ],
     [
@@ -177,6 +178,9 @@ const audioCollections = [
             { title: "Miss_Praxis - Compliance_Is_Pleasure_Drone_S03E20", url: "https://media.soundgasm.net/sounds/1b29c70773c57a4a5220dca499c8ffd42b98f34f.m4a", hypnotistType: "fem" },
             { title: "Miss_Praxis - Drone_Depot_Surplus_S1E24", url: "https://media.soundgasm.net/sounds/408df3a28455b7b7e9ee0792aa03faa26a6c7994.m4a", hypnotistType: "fem" },
             { title: "Miss_Praxis - Human_Thought_Detected_S04E14", url: "https://media.soundgasm.net/sounds/409ec0a4e144085a35d4f734b7399b8d64628414.m4a", hypnotistType: "fem" },
+            { title: "badslimegirl - core.[ switch ].play", url: "https://media.soundgasm.net/sounds/3b24977fe05989bef45621126a4cc01caa4569e5.m4a", hypnotistType: "fem" },
+            { title: "badslimegirl - practice.[ switch ].play", url: "https://media.soundgasm.net/sounds/b9814e8e619cf1bdd5ea9574567cfe58bd8796fe.m4a", hypnotistType: "fem" },
+            { title: "badslimegirl - loop.[ switch ].play", url: "https://media.soundgasm.net/sounds/8e6fa14f86d77bcce69badd1af78665aa9af4a67.m4a", hypnotistType: "fem" },
         ]
     ],
 	[
@@ -224,11 +228,11 @@ const audioCollections = [
         "Dumb and plastic 🧠",
         "What a dumb, pretty, plastic toy~",
         [
-            { title: "Dolly_Dreaming - Umm..., Erotic Hypnosis & Bimbofication", url: "https://media.soundgasm.net/sounds/6c548e0c4b13f49befe33d5ca664af082050b955.m4a", hypnotistType: "fem" },
-            { title: "bimbobipolar - Bimbos Dumb Cum", url: "https://media.soundgasm.net/sounds/d477e8ce00f5938f1b7dfce1e8149e72f82452c7.m4a"},
-            { title: "LilithUnleashed - Good Bimbo Toy", url: "https://media.soundgasm.net/sounds/cd49664cafdbc0abe9f673ae2929e0beb9cdc1c9.m4a"},
-            { title: "Dyst0pia - Bimbo Mantras", url: "https://media.soundgasm.net/sounds/59258c1b478b1cc34694145c63773ddb834b10de.m4a"},
-            { title: "m0mmyl0vesy0u - Bimbo Brainwashing Loop", url: "https://media.soundgasm.net/sounds/0cebdb7af24fe0c7e98802e46c02e9524f32e6c7.m4a"},
+            { title: "Dolly_Dreaming - Umm..., Erotic Hypnosis & Bimbofication", url: "https://media.soundgasm.net/sounds/6c548e0c4b13f49befe33d5ca664af082050b955.m4a", subjectType: "fem", hypnotistType: "fem" },
+            { title: "bimbobipolar - Bimbos Dumb Cum", url: "https://media.soundgasm.net/sounds/d477e8ce00f5938f1b7dfce1e8149e72f82452c7.m4a", subjectType: "fem", hypnotistType: "fem" },
+            { title: "LilithUnleashed - Good Bimbo Toy", url: "https://media.soundgasm.net/sounds/cd49664cafdbc0abe9f673ae2929e0beb9cdc1c9.m4a", subjectType: "fem", hypnotistType: "fem" },
+            { title: "Dyst0pia - Bimbo Mantras", url: "https://media.soundgasm.net/sounds/59258c1b478b1cc34694145c63773ddb834b10de.m4a", subjectType: "fem", hypnotistType: "fem" },
+            { title: "m0mmyl0vesy0u - Bimbo Brainwashing Loop", url: "https://media.soundgasm.net/sounds/0cebdb7af24fe0c7e98802e46c02e9524f32e6c7.m4a", subjectType: "fem", hypnotistType: "fem" },
         ]
     ],
 	[

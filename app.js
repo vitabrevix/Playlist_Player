@@ -1,3 +1,5 @@
+const CROSSFADE_DURATION = 5; // seconds for fade-out/fade-in overlap
+
 class PlaylistPlayer {
 	constructor() {
 		this.tracks = [];
@@ -11,6 +13,15 @@ class PlaylistPlayer {
 		this.statusDisplay = document.getElementById('statusDisplay');
 		this.collections = [];
 		this.customCollections = [];
+
+		this.audioContext = null;
+		this.currentSourceNode = null;
+		this.currentGainNode = null;
+		this.nextAudioElement = null;
+		this.nextSourceNode = null;
+		this.nextGainNode = null;
+		this.crossfadeTimer = null;
+		this.isCrossfading = false;
 		
 		this.initializeElements();
 		this.setupEventListeners();
@@ -190,6 +201,9 @@ class PlaylistPlayer {
 		});
 		
 		this.audioPlayer.addEventListener('ended', () => {
+			// If crossfade already handed off, just finalize
+			if (this.isCrossfading) return;
+
 			// Handle loop mode: 'one' (repeat current track)
 			if (this.loopMode === 'one') {
 				this.shouldAutoPlay = true;
@@ -214,9 +228,30 @@ class PlaylistPlayer {
 			
 			this.nextTrack();
 		});
+
+		this.audioPlayer.addEventListener('timeupdate', () => {
+			// Trigger crossfade when CROSSFADE_DURATION seconds remain
+			if (!this.shouldAutoPlay || this.isCrossfading) return;
+			if (this.loopMode === 'one') return;
+
+			const remaining = this.audioPlayer.duration - this.audioPlayer.currentTime;
+			if (
+				remaining > 0 &&
+				remaining <= CROSSFADE_DURATION &&
+				this.tracks.length > 1
+			) {
+				// Do not crossfade if this is the last track and loop is off
+				if (this.currentIndex === this.tracks.length - 1 && this.loopMode === 'off') return;
+
+				this.isCrossfading = true;
+				this.startCrossfade();
+			}
+		});
 		this.audioPlayer.addEventListener('play', () => {
 			this.shouldAutoPlay = true;
 			this.updatePlayPauseButton(true);
+			// Initialize AudioContext on first real play interaction
+			this.getAudioContext();
 		});
 		this.audioPlayer.addEventListener('pause', () => {
 			if (!this.audioPlayer.ended) {
@@ -713,8 +748,14 @@ class PlaylistPlayer {
 		setTimeout(() => this.hideStatus(), 2000);
 	}
 	
-	loadTrack(index) {
+	//Audio Playback
+	loadTrack(index, fromCrossfade = false) {
 		if (index < 0 || index >= this.tracks.length) return;
+
+		// Cancel any in-progress crossfade if this is a manual track change
+		if (!fromCrossfade) {
+			this.cancelCrossfade();
+		}
 		
 		this.currentIndex = index;
 		const track = this.tracks[index];
@@ -733,6 +774,144 @@ class PlaylistPlayer {
 		}
 		
 		this.saveToStorage();
+	}
+
+	//Crossfade Engine
+	getAudioContext() {
+		if (!this.audioContext) {
+			this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+		}
+		// Resume context if suspended (browser autoplay policy)
+		if (this.audioContext.state === 'suspended') {
+			this.audioContext.resume();
+		}
+		return this.audioContext;
+	}
+
+	startCrossfade() {
+		const nextIndex = (this.currentIndex + 1) % this.tracks.length;
+
+		if (nextIndex === this.currentIndex) {
+			this.isCrossfading = false;
+			return;
+		}
+
+		if (this.currentIndex === this.tracks.length - 1 && this.autoShuffleEnabled) {
+			this.shufflePlaylist();
+			this.showStatus('Auto-shuffling playlist!', 'playing');
+			setTimeout(() => this.hideStatus(), 2000);
+		}
+
+		const ctx = this.getAudioContext();
+		const now = ctx.currentTime;
+
+		// Wire up the current audioPlayer through Web Audio if not already done
+		if (!this.currentSourceNode) {
+			this.currentSourceNode = ctx.createMediaElementSource(this.audioPlayer);
+			this.currentGainNode = ctx.createGain();
+			this.currentSourceNode.connect(this.currentGainNode);
+			this.currentGainNode.connect(ctx.destination);
+		}
+
+		// Create next audio element
+		const nextAudio = new Audio();
+		nextAudio.crossOrigin = 'anonymous';
+		nextAudio.src = this.tracks[nextIndex].url;
+		nextAudio.volume = 1;
+
+		const nextSource = ctx.createMediaElementSource(nextAudio);
+		const nextGain = ctx.createGain();
+		nextSource.connect(nextGain);
+		nextGain.connect(ctx.destination);
+
+		// Fade out current, fade in next
+		this.currentGainNode.gain.setValueAtTime(1, now);
+		this.currentGainNode.gain.linearRampToValueAtTime(0, now + CROSSFADE_DURATION);
+
+		nextGain.gain.setValueAtTime(0, now);
+		nextGain.gain.linearRampToValueAtTime(1, now + CROSSFADE_DURATION);
+
+		nextAudio.play().catch(err => console.error('Crossfade play error:', err));
+
+		this.nextAudioElement = nextAudio;
+		this.nextSourceNode = nextSource;
+		this.nextGainNode = nextGain;
+
+		// After the fade completes, promote the next track to current
+		this.crossfadeTimer = setTimeout(() => {
+			this.finalizeCrossfade(nextIndex, nextAudio, nextSource, nextGain);
+		}, CROSSFADE_DURATION * 1000);
+	}
+
+	finalizeCrossfade(nextIndex, nextAudio, nextSource, nextGain) {
+		// Stop and disconnect the old player's Web Audio nodes
+		this.audioPlayer.pause();
+		if (this.currentSourceNode) {
+			this.currentSourceNode.disconnect();
+			this.currentSourceNode = null;
+		}
+		if (this.currentGainNode) {
+			this.currentGainNode.disconnect();
+			this.currentGainNode = null;
+		}
+
+		// Swap the next element into the main audioPlayer
+		this.audioPlayer.src = nextAudio.src;
+		this.audioPlayer.currentTime = nextAudio.currentTime;
+
+		// Restore Web Audio chain on the main player using the existing gain node
+		const ctx = this.getAudioContext();
+		this.currentSourceNode = ctx.createMediaElementSource(this.audioPlayer);
+		this.currentGainNode = nextGain;
+		this.currentGainNode.gain.setValueAtTime(1, ctx.currentTime);
+		this.currentSourceNode.connect(this.currentGainNode);
+
+		// Disconnect and discard the temporary next audio element
+		nextSource.disconnect();
+		nextAudio.pause();
+		nextAudio.src = '';
+
+		this.nextAudioElement = null;
+		this.nextSourceNode = null;
+		this.nextGainNode = null;
+		this.isCrossfading = false;
+		this.crossfadeTimer = null;
+
+		// Update state to reflect the new track
+		this.currentIndex = nextIndex;
+		const track = this.tracks[nextIndex];
+		this.currentTitle.textContent = track.title;
+		this.currentNumber.textContent = `Track ${nextIndex + 1} of ${this.tracks.length}`;
+
+		this.audioPlayer.play().catch(err => console.error('Finalize play error:', err));
+		this.renderPlaylist();
+		this.saveToStorage();
+	}
+
+	cancelCrossfade() {
+		if (this.crossfadeTimer) {
+			clearTimeout(this.crossfadeTimer);
+			this.crossfadeTimer = null;
+		}
+		if (this.nextAudioElement) {
+			this.nextAudioElement.pause();
+			this.nextAudioElement.src = '';
+			this.nextAudioElement = null;
+		}
+		if (this.nextSourceNode) {
+			this.nextSourceNode.disconnect();
+			this.nextSourceNode = null;
+		}
+		if (this.nextGainNode) {
+			this.nextGainNode.disconnect();
+			this.nextGainNode = null;
+		}
+		// Reset gain on current track back to full volume
+		if (this.currentGainNode && this.audioContext) {
+			this.currentGainNode.gain.cancelScheduledValues(this.audioContext.currentTime);
+			this.currentGainNode.gain.setValueAtTime(1, this.audioContext.currentTime);
+		}
+		this.isCrossfading = false;
 	}
 	
 	nextTrack() {
