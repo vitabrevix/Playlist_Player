@@ -221,9 +221,9 @@ const audioCollections = [
         "Become Pink 🩷",
         "What a feminine girl, so pretty and cute~",
         [
-            { title: "MommySammys - One of the Girls", url: "https://media.soundgasm.net/sounds/a24862f7bfaf885aea9c05b45a2d4fe62d539eac.m4a", hypnotistType: "fem" },
-            { title: "MommySammys - Good Girls Swallow", url: "https://media.soundgasm.net/sounds/f873cc1fdcc8e6033e26ad4669a0e478d4e88d42.m4a", hypnotistType: "fem" },
-            { title: "MommySammys - Feminization", url: "https://media.soundgasm.net/sounds/09134a96776a9df525b3b252bc947cfda39566ac.m4a", hypnotistType: "fem" },
+            { title: "MommySammys - One of the Girls", url: "https://media.soundgasm.net/sounds/a24862f7bfaf885aea9c05b45a2d4fe62d539eac.m4a", hypnotistType: "fem", subjectType: "fem" },
+            { title: "MommySammys - Good Girls Swallow", url: "https://media.soundgasm.net/sounds/f873cc1fdcc8e6033e26ad4669a0e478d4e88d42.m4a", hypnotistType: "fem", subjectType: "fem" },
+            { title: "MommySammys - Feminization", url: "https://media.soundgasm.net/sounds/09134a96776a9df525b3b252bc947cfda39566ac.m4a", hypnotistType: "fem", subjectType: "fem" },
         ]
     ],
 	[
@@ -249,7 +249,6 @@ const audioCollections = [
         "Sweet Dreams 😴",
         "You dont need to be awake anymore~",
         [
-			{ title: "nocturnowlette - Safer is Deeper", url: "https://media.soundgasm.net/sounds/180a2b301e3b872697a415526fe988e2d87f22da.m4a" },
 			{ title: "MommySammys - Drift Off to Sleep", url: "https://media.soundgasm.net/sounds/e5da2e5af6fc132d8a96bd40846fa3a9e1c86fd0.m4a", hypnotistType: "fem" },
 			{ title: "nocturnowlette - Sleep Orb", url: "https://media.soundgasm.net/sounds/9d91e74d3614f04b7b2d9d8c1b1c9ac6a1ba2f9e.m4a" },
 			{ title: "Mistress Calia - Cosy Sleep Hypnosis", url: "https://mistresscalia.com/wp-content/uploads/2024/08/Cosy-Sleep.mp3", hypnotistType: "fem" },
@@ -267,6 +266,7 @@ const audioCollections = [
         "Utility 🔧",
         "Useful sometimes~",
         [
+			{ title: "nocturnowlette - Safer is Deeper", url: "https://media.soundgasm.net/sounds/180a2b301e3b872697a415526fe988e2d87f22da.m4a" },
 			{ title: "MommySammys - Anti-Anxiety Trigger", url: "https://media.soundgasm.net/sounds/836b0aaeb68b7a106a2b1d2e019b23b100bd3012.m4a", hypnotistType: "fem" },
 			{ title: "MommySammys - Deprogramming", url: "https://media.soundgasm.net/sounds/fd692bd72d6b608a79c570a0a3b534b1f523b95a.m4a", hypnotistType: "fem" },
 			{ title: "Miss Lilith - Kinky Workout", url: "https://lilithunleashed.net/wp-content/uploads/2023/04/Kinky-Workout-Submission-MP3.mp3", hypnotistType: "fem" },
