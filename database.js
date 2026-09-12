@@ -35,7 +35,7 @@ const audioCollections = [
             { title: "PuppyTrainerC - 🐶Puppy Brain", url: "https://media.soundgasm.net/sounds/88cd2876e056e82a3d2535647170b1bade4e6685.m4a", hypnotistType: "fem" },
             { title: "JustMocha - 😸My Good Kitten", url: "https://media.soundgasm.net/sounds/e3616459998c3c22f601bd75121ef0a91ce2e48b.m4a", hypnotistType: "fem" },
             { title: "JustMocha - Simple Submission", url: "https://media.soundgasm.net/sounds/69e7b9b7262ac06b0b9d9835b69a8e1eacded2ba.m4a", hypnotistType: "fem" },
-            { title: "Miss Lilith - Collared Obedience", url: "https://lilithunleashed.net/wp-content/uploads/2021/08/Collared-Obedience-SFX-BB..mp3", hypnotistType: "fem" },
+            { title: "Miss Lilith - Collared Obedience", url: "https://lilith-audio.b-cdn.net/2021/08/Collared-Obedience-SFX-BB..mp3", hypnotistType: "fem" },
             { title: "Miss_Praxis - 🐮Sinberry_Shake_S06E01", url: "https://media.soundgasm.net/sounds/2b352bc4839e42e9878df02b12531306aa97e483.m4a", hypnotistType: "fem" },
             { title: "MistressTess - 139 - Humping Induction", url: "https://media.soundgasm.net/sounds/78b77de62e27771d64520ebaaadb0eb8cd2ad990.m4a", hypnotistType: "fem" },
             { title: "Miss_Praxis - 🐶Assistant_Wanted_S04E07", url: "https://media.soundgasm.net/sounds/571bdb57cf117eac7c5ec55509b900412b7f67b5.m4a", hypnotistType: "fem" },
@@ -60,6 +60,7 @@ const audioCollections = [
         [
             { title: "m0mmyl0vesy0u - Degradation Arousal Trainer", url: "https://media.soundgasm.net/sounds/ec60982676d858facf6ebdf92ba78fb129c99dbf.m4a", hypnotistType: "fem" },
             { title: "WilliamMastersNarrates - Praise Kink Pussy Worship", url: "https://media.soundgasm.net/sounds/d01fe07a8d08c7f822c8fc7096f882d3af0ac65d.m4a", subjectType: "fem", hypnotistType: "masc" },
+            { title: "Mistress Calia - Praised into Trance", url: "https://mistresscalia.com/wp-content/uploads/2026/03/Praise-Trance_mixdown.mp3", hypnotistType: "masc" },
         ]
     ],
     [
@@ -82,6 +83,7 @@ const audioCollections = [
 			{ title: "TheHypnoCollective - Ultimate Depeener M only", url: "https://thehypnocollective.com/wp-content/uploads/2025/09/Ultimate-Deepener-Male-Voices-Binaurals.mp3", hypnotistType: "masc" },
 			{ title: "MommySammys - Delirium", url: "https://media.soundgasm.net/sounds/edf773a73d5aad3a1f4814f66a3ebc3f67d81232.m4a", hypnotistType: "fem" },
 			{ title: "MommySammys - Hypnoception", url: "https://media.soundgasm.net/sounds/ab072d55740a71d0079e00a4b8358579fe078e86.m4a", hypnotistType: "fem" },
+			{ title: "Mistress Calia - Confusion Countdown Hypnosis", url: "https://mistresscalia.com/wp-content/uploads/2025/06/confusion-count_mixdown.mp3", hypnotistType: "fem" },
         ]
     ],
 	[
@@ -143,6 +145,13 @@ const audioCollections = [
             { title: "MommySammys - Edge Loop", url: "https://media.soundgasm.net/sounds/8d9732ac0514344bfaedea329ae8983855884755.m4a", hypnotistType: "fem" },
             { title: "MommySammys - Try To Resist", url: "https://media.soundgasm.net/sounds/c8455dc71e60b5b1cfce2ac20f523a698d4a6dc9.m4a", hypnotistType: "fem" },
             { title: "MommySammys - Mental Chastity", url: "https://media.soundgasm.net/sounds/a30ff4eb09756b48afc0aa425e3b0f7b901297c2.m4a", hypnotistType: "fem" },
+            { title: "Mistress Calia - Chastity Training Part 1", url: "https://mistresscalia.com/wp-content/uploads/2026/04/Chastity-Series-1_mixdown.mp3", hypnotistType: "fem" },
+            { title: "Mistress Calia - Chastity Training Part 2", url: "https://mistresscalia.com/wp-content/uploads/2026/07/Chastity-Training-2_mixdown.mp3", hypnotistType: "fem" },
+            { title: "Mistress Calia - Chastity Training Part 3", url: "https://mistresscalia.com/wp-content/uploads/2026/07/Chastity-3_mixdown.mp3", hypnotistType: "fem" },
+            { title: "Mistress Calia - Forever Locked Chastity Curse", url: "https://mistresscalia.com/wp-content/uploads/2025/01/Chastity65j7-Curse_mixdown.mp3", hypnotistType: "fem" },
+            { title: "Mistress Calia - Calia’s Curse", url: "https://mistresscalia.com/wp-content/uploads/2024/03/Calias-Curse.mp3", hypnotistType: "fem" },
+            { title: "Mistress Calia - True Love’s Curse", url: "https://mistresscalia.com/wp-content/uploads/2024/08/True-Loves-Curse.mp3", hypnotistType: "fem" },
+			{ title: "WilliamMastersNarrates - Good Girls Practice Orgasm Control", url: "https://media.soundgasm.net/sounds/3143dec101ecdde28aab521bfc9278237f5207e8.m4a", hypnotistType: "masc", subjectType: "fem" },
 			
         ]
     ],
@@ -181,6 +190,7 @@ const audioCollections = [
             { title: "badslimegirl - core.[ switch ].play", url: "https://media.soundgasm.net/sounds/3b24977fe05989bef45621126a4cc01caa4569e5.m4a", hypnotistType: "fem" },
             { title: "badslimegirl - practice.[ switch ].play", url: "https://media.soundgasm.net/sounds/b9814e8e619cf1bdd5ea9574567cfe58bd8796fe.m4a", hypnotistType: "fem" },
             { title: "badslimegirl - loop.[ switch ].play", url: "https://media.soundgasm.net/sounds/8e6fa14f86d77bcce69badd1af78665aa9af4a67.m4a", hypnotistType: "fem" },
+            { title: "Mistress Calia - CaliaCorp 3: Facility Tour", url: "https://mistresscalia.com/wp-content/uploads/2026/08/CaliaCorp-3-Part-1_mixdown.mp3", hypnotistType: "fem" },
         ]
     ],
 	[
@@ -220,8 +230,8 @@ const audioCollections = [
         "Become Blue 🩵",
         "What a masculine boy, so handsome and cute~",
         [
-            { title: "Sleep_Paralysis_Demoness - The cave - Bottom programming", url: "https://media.soundgasm.net/sounds/a68318a95a77e593533f843fda6570503a52d02d.m4a"},
-            { title: "Sleep_Paralysis_Demoness - Break down to build up", url: "https://media.soundgasm.net/sounds/03e41e4d25277e85016b2628c38d354d2e909aee.m4a"},
+            { title: "Sleep_Paralysis_Demoness - The cave - Bottom programming", url: "https://media.soundgasm.net/sounds/a68318a95a77e593533f843fda6570503a52d02d.m4a", subjectType: "masc"},
+            { title: "Sleep_Paralysis_Demoness - Break down to build up", url: "https://media.soundgasm.net/sounds/03e41e4d25277e85016b2628c38d354d2e909aee.m4a", subjectType: "masc"},
         ]
     ],
     [
@@ -236,12 +246,27 @@ const audioCollections = [
         ]
     ],
 	[
-        "Utility 🔧",
-        "Useful sometimes~",
+        "Sweet Dreams 😴",
+        "You dont need to be awake anymore~",
         [
 			{ title: "nocturnowlette - Safer is Deeper", url: "https://media.soundgasm.net/sounds/180a2b301e3b872697a415526fe988e2d87f22da.m4a" },
 			{ title: "MommySammys - Drift Off to Sleep", url: "https://media.soundgasm.net/sounds/e5da2e5af6fc132d8a96bd40846fa3a9e1c86fd0.m4a", hypnotistType: "fem" },
 			{ title: "nocturnowlette - Sleep Orb", url: "https://media.soundgasm.net/sounds/9d91e74d3614f04b7b2d9d8c1b1c9ac6a1ba2f9e.m4a" },
+			{ title: "Mistress Calia - Cosy Sleep Hypnosis", url: "https://mistresscalia.com/wp-content/uploads/2024/08/Cosy-Sleep.mp3", hypnotistType: "fem" },
+        ]
+    ],
+	[
+        "Take control for once 🫦",
+        "Oh? Didnt know you wanted that~",
+        [
+			{ title: "Mistress Calia - Dominant For Them, Submissive For Me", url: "https://mistresscalia.com/wp-content/uploads/2026/02/Dom-for-them_mixdown.mp3", hypnotistType: "fem" },
+			{ title: "Mistress Calia - Good Domme Training", url: "https://mistresscalia.com/wp-content/uploads/2026/02/Good-Domme_mixdown.mp3", hypnotistType: "fem", subjectType: "fem" },
+        ]
+    ],
+	[
+        "Utility 🔧",
+        "Useful sometimes~",
+        [
 			{ title: "MommySammys - Anti-Anxiety Trigger", url: "https://media.soundgasm.net/sounds/836b0aaeb68b7a106a2b1d2e019b23b100bd3012.m4a", hypnotistType: "fem" },
 			{ title: "MommySammys - Deprogramming", url: "https://media.soundgasm.net/sounds/fd692bd72d6b608a79c570a0a3b534b1f523b95a.m4a", hypnotistType: "fem" },
 			{ title: "Miss Lilith - Kinky Workout", url: "https://lilithunleashed.net/wp-content/uploads/2023/04/Kinky-Workout-Submission-MP3.mp3", hypnotistType: "fem" },
@@ -254,7 +279,6 @@ const audioCollections = [
             { title: "GoddessSoft - You're so good at this game!", url: "https://media.soundgasm.net/sounds/a0cc34647dd816beaa03ab384e681421c1c9c391.m4a", hypnotistType: "fem" },
             { title: "GoddessSoft - The Scent of Submission", url: "https://media.soundgasm.net/sounds/42cbd7ca71f76c6f73cd4a60560798fdfe7ca845.m4a", hypnotistType: "fem" },
             { title: "JustMocha - At the Feet of the Villainess", url: "https://media.soundgasm.net/sounds/db7325248dfdeb19f20a8448d380a16c43ce439a.m4a", hypnotistType: "fem" },
-            { title: "WilliamMastersNarrates - Good Girls Practice Orgasm Control", url: "https://media.soundgasm.net/sounds/3143dec101ecdde28aab521bfc9278237f5207e8.m4a", hypnotistType: "masc" },
             { title: "WilliamMastersNarrates - Hypno for More Sensitive Nipples", url: "https://media.soundgasm.net/sounds/d492b35b9891ef6fdbd5f69d008267a5e1d9a501.m4a", hypnotistType: "masc" },
 			{ title: "Shibbydex - Domina's Outlet", url: "https://shibbydex.com/play/970d65b2-e5a5-4ef2-88b5-90365ea53cc1", hypnotistType: "fem" },
 			{ title: "Gingerbreadpigge - Wellness Retreat", url: "https://media.soundgasm.net/sounds/e75241424774a5d301aad28147354fba78bf67c8.m4a", hypnotistType: "fem" },
@@ -275,6 +299,9 @@ const audioCollections = [
 			{ title: "MommySammys - Small Penis Humiliation", url: "https://media.soundgasm.net/sounds/fcad7653e7c4bdd9a4b02efcb7e387cb8530890d.m4a", hypnotistType: "fem" },
 			{ title: "MommySammys - Armpit Fetish Curse", url: "https://media.soundgasm.net/sounds/51d773a2128124355ada16973c1e48501bdd4ad4.m4a", hypnotistType: "fem" },
 			{ title: "MommySammys - Foot Fetish Curse", url: "https://media.soundgasm.net/sounds/4e1b6a1fd9b21590cbd618ca60014aca562dbe36.m4a", hypnotistType: "fem" },
+			{ title: "Miss Lilith - Venomous Persuasions", url: "https://lilith-audio.b-cdn.net/2021/08/Venomous-Persuasions-320kbps.mp3", hypnotistType: "fem" },
+			{ title: "Mistress Calia - Let Me Hypnotize You to Confess", url: "https://mistresscalia.com/wp-content/uploads/2026/01/confess-to-me_mixdown-1.mp3", hypnotistType: "fem" },
+			{ title: "Mistress Calia - Hypno Tropes Hypnotize You", url: "https://mistresscalia.com/wp-content/uploads/2026/07/Hypno-Tropes_mixdown.mp3", hypnotistType: "fem" },
         ]
     ]
 ];

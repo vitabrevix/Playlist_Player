@@ -30,8 +30,15 @@ class PlaylistPlayer {
 	
 	async initialize() {
 		await this.loadCollections();
-		this.loadFromStorage();
+		const hasUrlTracks = window.location.search.length > 1;
+		this.loadFromStorage(hasUrlTracks);
 		this.handleUrlParameters();
+
+		// If URL params existed but none of them loaded a track (e.g. only loop/autoshuffle
+		// params), fall back to the saved track now that params are fully processed.
+		if (hasUrlTracks && !this.audioPlayer.src && this.tracks.length > 0 && this.currentIndex < this.tracks.length) {
+			this.loadTrack(this.currentIndex);
+		}
 	}
 	
 	initializeElements() {
@@ -1256,7 +1263,7 @@ class PlaylistPlayer {
 		}
 	}
 	
-	loadFromStorage() {
+	loadFromStorage(skipLoad = false) {
 		try {
 			const data = localStorage.getItem('audioPlaylistPlayer');
 			if (data) {
@@ -1314,7 +1321,7 @@ class PlaylistPlayer {
 				}
 				
 				this.renderPlaylist();
-				if (this.tracks.length > 0 && this.currentIndex < this.tracks.length) {
+				if (this.tracks.length > 0 && this.currentIndex < this.tracks.length && !skipLoad) {
 					this.loadTrack(this.currentIndex);
 				}
 			}
